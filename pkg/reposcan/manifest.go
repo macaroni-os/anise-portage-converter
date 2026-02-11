@@ -12,7 +12,7 @@ import (
 	"sort"
 	"strings"
 
-	helpers "github.com/MottainaiCI/lxd-compose/pkg/helpers"
+	helpers "github.com/macaroni-os/anise-portage-converter/pkg/utils"
 )
 
 type ManifestFile struct {

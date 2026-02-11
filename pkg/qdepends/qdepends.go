@@ -12,8 +12,8 @@ import (
 	"strings"
 
 	"github.com/macaroni-os/anise-portage-converter/pkg/specs"
+	helpers "github.com/macaroni-os/anise-portage-converter/pkg/utils"
 
-	helpers "github.com/MottainaiCI/lxd-compose/pkg/helpers"
 	gentoo "github.com/geaaru/pkgs-checker/pkg/gentoo"
 )
 

@@ -15,10 +15,10 @@ import (
 	"strings"
 	"sync"
 
-	helpers "github.com/MottainaiCI/lxd-compose/pkg/helpers"
 	. "github.com/geaaru/luet/pkg/logger"
-	gentoo "github.com/geaaru/pkgs-checker/pkg/gentoo"
+	helpers "github.com/macaroni-os/anise-portage-converter/pkg/utils"
 
+	gentoo "github.com/geaaru/pkgs-checker/pkg/gentoo"
 	"golang.org/x/sync/semaphore"
 )
 
