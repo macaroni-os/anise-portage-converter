@@ -9,16 +9,15 @@ import (
 	"fmt"
 	"path/filepath"
 
-	cfg "github.com/geaaru/luet/pkg/config"
-	. "github.com/geaaru/luet/pkg/logger"
-	luet_pkg "github.com/geaaru/luet/pkg/package"
-	luet_tree "github.com/geaaru/luet/pkg/tree"
+	cfg "github.com/macaroni-os/anise/pkg/config"
+	. "github.com/macaroni-os/anise/pkg/logger"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
 )
 
 type Stage4Worker struct {
 	Levels  *Stage4Levels
-	Map     map[string]*luet_pkg.DefaultPackage
-	Changed map[string]*luet_pkg.DefaultPackage
+	Map     map[string]*anise_pkg.DefaultPackage
+	Changed map[string]*anise_pkg.DefaultPackage
 }
 
 func (pc *PortageConverter) Stage4() error {
@@ -30,10 +29,12 @@ func (pc *PortageConverter) Stage4() error {
 		return nil
 	}
 
-	pc.ReciperBuild = luet_tree.NewCompilerRecipe(luet_pkg.NewInMemoryDatabase(false))
-	pc.ReciperRuntime = luet_tree.NewInstallerRecipe(luet_pkg.NewInMemoryDatabase(false))
+	err := pc.PurgeTreeIndexes()
+	if err != nil {
+		return err
+	}
 
-	err := pc.LoadTrees(pc.TreePaths)
+	err = pc.LoadTrees(pc.TreePaths)
 	if err != nil {
 		return err
 	}
@@ -41,8 +42,8 @@ func (pc *PortageConverter) Stage4() error {
 	// Create stage4 stuff
 	var levels *Stage4Levels = nil
 	worker := &Stage4Worker{
-		Map:     make(map[string]*luet_pkg.DefaultPackage, 0),
-		Changed: make(map[string]*luet_pkg.DefaultPackage, 0),
+		Map:     make(map[string]*anise_pkg.DefaultPackage, 0),
+		Changed: make(map[string]*anise_pkg.DefaultPackage, 0),
 	}
 
 	nSolutions := len(pc.Solutions)
@@ -66,13 +67,13 @@ func (pc *PortageConverter) Stage4() error {
 			idx+1, nSolutions)),
 			"Preparing stage4 levels struct...")
 
-		luetPkg := &luet_pkg.DefaultPackage{
+		anisePkg := &anise_pkg.DefaultPackage{
 			Name:     pack.GetName(),
 			Category: pack.GetCategory(),
 			Version:  pack.GetVersion(),
 		}
 
-		err := pc.Stage4AddDeps2Levels(luetPkg, nil, worker, 1, []string{})
+		err := pc.Stage4AddDeps2Levels(anisePkg, nil, worker, 1, []string{})
 		if err != nil {
 			Warning(fmt.Sprintf(
 				"Stage4: [%s/%s] Error on add deps to levels. Skip package - %s",
@@ -135,7 +136,7 @@ func (pc *PortageConverter) stage4UpdateBuildFiles(worker *Stage4Worker) error {
 
 	for _, pkg := range worker.Changed {
 
-		ppp, err := pc.ReciperBuild.GetDatabase().FindPackages(pkg)
+		ppp, err := pc.FindBuildtimePackages(pkg)
 		if err != nil {
 			return errors.New(
 				fmt.Sprintf("Error on retrieve data of the package %s/%s: %s",
@@ -145,7 +146,7 @@ func (pc *PortageConverter) stage4UpdateBuildFiles(worker *Stage4Worker) error {
 
 		buildFile := filepath.Join(ppp[0].GetPath(), "build.yaml")
 		// Load Build Template file
-		buildPack, err := NewLuetCompilationSpecSanitizedFromFile(buildFile)
+		buildPack, err := NewAniseCompilationSpecSanitizedFromFile(buildFile)
 		if err != nil {
 			return err
 		}
@@ -153,10 +154,10 @@ func (pc *PortageConverter) stage4UpdateBuildFiles(worker *Stage4Worker) error {
 		prevReqs := len(buildPack.GetRequires())
 
 		// Prepare requires
-		reqs := []*luet_pkg.DefaultPackage{}
+		reqs := []*anise_pkg.DefaultPackage{}
 
 		for _, dep := range pkg.GetRequires() {
-			reqs = append(reqs, &luet_pkg.DefaultPackage{
+			reqs = append(reqs, &anise_pkg.DefaultPackage{
 				Category: dep.GetCategory(),
 				Name:     dep.GetName(),
 				Version:  ">=0",
@@ -194,13 +195,13 @@ func (pc *PortageConverter) Stage4LevelsDumpWrapper(levels *Stage4Levels, msg st
 	}
 }
 
-func (pc *PortageConverter) Stage4AddDeps2Levels(pkg *luet_pkg.DefaultPackage,
-	father *luet_pkg.DefaultPackage,
+func (pc *PortageConverter) Stage4AddDeps2Levels(pkg *anise_pkg.DefaultPackage,
+	father *anise_pkg.DefaultPackage,
 	w *Stage4Worker, level int, stack []string) error {
 
 	key := fmt.Sprintf("%s/%s", pkg.GetCategory(), pkg.GetName())
 
-	if cfg.LuetCfg.GetLogging().Level == "debug" {
+	if cfg.AniseCfg.GetLogging().Level == "debug" {
 		DebugC(fmt.Sprintf(
 			"Adding pkg %s to level %d...",
 			pkg.HumanReadableString(),
@@ -226,13 +227,13 @@ func (pc *PortageConverter) Stage4AddDeps2Levels(pkg *luet_pkg.DefaultPackage,
 		pkg = v
 	} else {
 
-		pkg_search := &luet_pkg.DefaultPackage{
+		pkg_search := &anise_pkg.DefaultPackage{
 			Category: pkg.GetCategory(),
 			Name:     pkg.GetName(),
 			Version:  ">=0",
 		}
 
-		ppp, err := pc.ReciperBuild.GetDatabase().FindPackages(pkg_search)
+		ppp, err := pc.FindBuildtimePackages(pkg_search)
 		if err != nil {
 			return errors.New(
 				fmt.Sprintf(

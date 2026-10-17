@@ -13,14 +13,14 @@ import (
 	"github.com/macaroni-os/anise-portage-converter/pkg/reposcan"
 	"github.com/macaroni-os/anise-portage-converter/pkg/specs"
 
-	"github.com/geaaru/luet/pkg/config"
-	fhelpers "github.com/geaaru/luet/pkg/helpers/file"
-	. "github.com/geaaru/luet/pkg/logger"
-	luet_pkg "github.com/geaaru/luet/pkg/package"
-	pkg "github.com/geaaru/luet/pkg/package"
-	artifact "github.com/geaaru/luet/pkg/v2/compiler/types/artifact"
-	installer "github.com/geaaru/luet/pkg/v2/installer"
 	"github.com/geaaru/pkgs-checker/pkg/gentoo"
+	"github.com/macaroni-os/anise/pkg/config"
+	fhelpers "github.com/macaroni-os/anise/pkg/helpers/file"
+	. "github.com/macaroni-os/anise/pkg/logger"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
+	pkg "github.com/macaroni-os/anise/pkg/package"
+	artifact "github.com/macaroni-os/anise/pkg/v2/compiler/types/artifact"
+	installer "github.com/macaroni-os/anise/pkg/v2/installer"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
@@ -245,7 +245,7 @@ func populateArtifact(p *gentoo.PortageMetaData, a *artifact.PackageArtifact,
 
 	a.Files = files
 
-	a.Runtime = &luet_pkg.DefaultPackage{
+	a.Runtime = &anise_pkg.DefaultPackage{
 		Name:           p.GetPN(),
 		Category:       specs.SanitizeCategory(p.Category, p.Slot),
 		Version:        p.Version,
@@ -289,13 +289,13 @@ func syncPackage(p *gentoo.PortageMetaData, task *PortageSyncTask,
 	Debug(fmt.Sprintf("[%4d/%4d] [%s] Analyzing...",
 		idx+1, n, p.GetPackageNameWithSlot()))
 
-	luetP := &luet_pkg.DefaultPackage{
+	aniseP := &anise_pkg.DefaultPackage{
 		Name:     p.Name,
 		Category: specs.SanitizeCategory(p.Category, p.Slot),
 		Version:  ">=0",
 	}
 
-	pkgs, err := task.Manager.Database.FindPackages(luetP)
+	pkgs, err := task.Manager.Database.FindPackages(aniseP)
 	if err != nil {
 		return err
 	}
@@ -425,7 +425,7 @@ func newSyncCommand() *cobra.Command {
 			pkgs, _ := cmd.Flags().GetStringArray("pkg")
 
 			if debug {
-				config.LuetCfg.GetGeneral().Debug = debug
+				config.AniseCfg.GetGeneral().Debug = debug
 			}
 
 			var opts *gentoo.PortageUseParseOpts
@@ -486,7 +486,7 @@ func newSyncCommand() *cobra.Command {
 			}
 
 			// Initialize anise artifact manager
-			task.Manager = installer.NewArtifactsManager(config.LuetCfg)
+			task.Manager = installer.NewArtifactsManager(config.AniseCfg)
 			defer task.Manager.Close()
 
 			task.Manager.Setup()

@@ -11,8 +11,8 @@ import (
 	"path"
 	"path/filepath"
 
-	luet_pkg "github.com/geaaru/luet/pkg/package"
 	gentoo "github.com/geaaru/pkgs-checker/pkg/gentoo"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
 
 	"gopkg.in/yaml.v2"
 )
@@ -474,7 +474,7 @@ type PortageSolution struct {
 	Labels      map[string]string      `json:"labels,omitempty"`
 	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty"`
 
-	OverrideVersion string                   `json:"override_version,omitempty"`
-	Upgrade         bool                     `json:"upgrade,omitempty"`
-	PackageUpgraded *luet_pkg.DefaultPackage `json:"-",omitempty"`
+	OverrideVersion string                    `json:"override_version,omitempty"`
+	Upgrade         bool                      `json:"upgrade,omitempty"`
+	PackageUpgraded *anise_pkg.DefaultPackage `json:"-",omitempty"`
 }

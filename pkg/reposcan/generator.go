@@ -15,7 +15,7 @@ import (
 	"strings"
 	"sync"
 
-	. "github.com/geaaru/luet/pkg/logger"
+	. "github.com/macaroni-os/anise/pkg/logger"
 	helpers "github.com/macaroni-os/anise-portage-converter/pkg/utils"
 
 	gentoo "github.com/geaaru/pkgs-checker/pkg/gentoo"

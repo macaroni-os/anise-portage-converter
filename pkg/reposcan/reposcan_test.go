@@ -11,7 +11,7 @@ import (
 	. "github.com/macaroni-os/anise-portage-converter/pkg/reposcan"
 	specs "github.com/macaroni-os/anise-portage-converter/pkg/specs"
 
-	luet_pkg "github.com/geaaru/luet/pkg/package"
+	luet_pkg "github.com/macaroni-os/anise/pkg/package"
 	gentoo "github.com/geaaru/pkgs-checker/pkg/gentoo"
 
 	. "github.com/onsi/ginkgo/v2"

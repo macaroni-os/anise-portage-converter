@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/geaaru/luet/pkg/config"
-	. "github.com/geaaru/luet/pkg/logger"
+	. "github.com/macaroni-os/anise/pkg/config"
+	. "github.com/macaroni-os/anise/pkg/logger"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

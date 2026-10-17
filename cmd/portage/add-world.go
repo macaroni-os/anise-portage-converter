@@ -10,8 +10,8 @@ import (
 
 	"github.com/macaroni-os/anise-portage-converter/pkg/portage"
 
-	. "github.com/geaaru/luet/pkg/config"
-	. "github.com/geaaru/luet/pkg/logger"
+	. "github.com/macaroni-os/anise/pkg/config"
+	. "github.com/macaroni-os/anise/pkg/logger"
 
 	"github.com/spf13/cobra"
 )
@@ -46,7 +46,7 @@ NOTE: The command automatically avoid to add duplicate.`,
 			debug, _ := cmd.Flags().GetBool("debug")
 
 			if debug {
-				LuetCfg.GetGeneral().Debug = debug
+				AniseCfg.GetGeneral().Debug = debug
 			}
 
 			// Read the existing world file.

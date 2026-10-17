@@ -12,8 +12,8 @@ import (
 
 	"github.com/macaroni-os/anise-portage-converter/pkg/reposcan"
 
-	//. "github.com/geaaru/luet/pkg/config"
-	. "github.com/geaaru/luet/pkg/logger"
+	//. "github.com/macaroni-os/anise/pkg/config"
+	. "github.com/macaroni-os/anise/pkg/logger"
 	"github.com/spf13/cobra"
 )
 

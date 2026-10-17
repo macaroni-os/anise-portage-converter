@@ -9,10 +9,10 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	. "github.com/geaaru/luet/pkg/logger"
-	luet_pkg "github.com/geaaru/luet/pkg/package"
-	luet_tree "github.com/geaaru/luet/pkg/tree"
 	"github.com/macaroni-os/anise-portage-converter/pkg/specs"
+	. "github.com/macaroni-os/anise/pkg/logger"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
+	anise_tree "github.com/macaroni-os/anise/pkg/v2/tree"
 )
 
 func (pc *PortageConverter) Stage3() error {
@@ -24,11 +24,12 @@ func (pc *PortageConverter) Stage3() error {
 		return nil
 	}
 
-	// Reset reciper
-	pc.ReciperBuild = luet_tree.NewCompilerRecipe(luet_pkg.NewInMemoryDatabase(false))
-	pc.ReciperRuntime = luet_tree.NewInstallerRecipe(luet_pkg.NewInMemoryDatabase(false))
+	err := pc.PurgeTreeIndexes()
+	if err != nil {
+		return err
+	}
 
-	err := pc.LoadTrees(pc.TreePaths)
+	err = pc.LoadTrees(pc.TreePaths)
 	if err != nil {
 		return err
 	}
@@ -46,22 +47,22 @@ func (pc *PortageConverter) Stage3() error {
 		runtimeConflictsRemoved := 0
 		buildtimeDepsRemoved := 0
 		buildtimeConflictsRemoved := 0
-		resolvedRuntimeDeps := []*luet_pkg.DefaultPackage{}
-		resolvedBuildtimeDeps := []*luet_pkg.DefaultPackage{}
-		resolvedRuntimeConflicts := []*luet_pkg.DefaultPackage{}
-		resolvedBuildConflicts := []*luet_pkg.DefaultPackage{}
+		resolvedRuntimeDeps := []*anise_pkg.DefaultPackage{}
+		resolvedBuildtimeDeps := []*anise_pkg.DefaultPackage{}
+		resolvedRuntimeConflicts := []*anise_pkg.DefaultPackage{}
+		resolvedBuildConflicts := []*anise_pkg.DefaultPackage{}
 
 		// Check buildtime requires
 		DebugC(GetAurora().Bold(fmt.Sprintf("[%s/%s-%s]",
 			pack.GetCategory(), pack.GetName(), pack.GetVersion())),
 			"Checking buildtime dependencies...")
 
-		luetPkg := &luet_pkg.DefaultPackage{
+		anisePkg := &anise_pkg.DefaultPackage{
 			Name:     pack.GetName(),
 			Category: pack.GetCategory(),
 			Version:  pack.GetVersion(),
 		}
-		pReciper, err := pc.ReciperBuild.GetDatabase().FindPackage(luetPkg)
+		pReciper, err := pc.FindBuildtimePackage(anisePkg)
 		if err != nil {
 			return err
 		}
@@ -74,8 +75,8 @@ func (pc *PortageConverter) Stage3() error {
 		if len(conflicts) > 0 {
 
 			for _, dep := range conflicts {
-				pp, _ := pc.ReciperBuild.GetDatabase().FindPackages(
-					&luet_pkg.DefaultPackage{
+				pp, _ := pc.FindBuildtimePackages(
+					&anise_pkg.DefaultPackage{
 						Name:     dep.GetName(),
 						Category: dep.GetCategory(),
 						Version:  dep.GetVersion(),
@@ -83,8 +84,8 @@ func (pc *PortageConverter) Stage3() error {
 				)
 
 				if pp == nil || len(pp) == 0 {
-					pp, _ := pc.ReciperRuntime.GetDatabase().FindPackages(
-						&luet_pkg.DefaultPackage{
+					pp, _ := pc.FindRuntimePackages(
+						&anise_pkg.DefaultPackage{
 							Name:     dep.GetName(),
 							Category: dep.GetCategory(),
 							Version:  dep.GetVersion(),
@@ -119,8 +120,8 @@ func (pc *PortageConverter) Stage3() error {
 						continue
 					}
 
-					d2pkgs, err := pc.ReciperBuild.GetDatabase().FindPackages(
-						&luet_pkg.DefaultPackage{
+					d2pkgs, err := pc.FindBuildtimePackages(
+						&anise_pkg.DefaultPackage{
 							Name:     d2.GetName(),
 							Category: d2.GetCategory(),
 							Version:  ">=0",
@@ -176,7 +177,7 @@ func (pc *PortageConverter) Stage3() error {
 		}
 
 		// Check runtime requires
-		pReciper, err = pc.ReciperRuntime.GetDatabase().FindPackage(luetPkg)
+		pReciper, err = pc.FindRuntimePackage(anisePkg)
 		if err != nil {
 			return err
 		}
@@ -203,8 +204,8 @@ func (pc *PortageConverter) Stage3() error {
 					continue
 				}
 
-				pp, _ := pc.ReciperRuntime.GetDatabase().FindPackages(
-					&luet_pkg.DefaultPackage{
+				pp, _ := pc.FindRuntimePackages(
+					&anise_pkg.DefaultPackage{
 						Name:     dep.GetName(),
 						Category: dep.GetCategory(),
 						Version:  dep.GetVersion(),
@@ -239,8 +240,8 @@ func (pc *PortageConverter) Stage3() error {
 						continue
 					}
 
-					d2pkgs, err := pc.ReciperRuntime.GetDatabase().FindPackages(
-						&luet_pkg.DefaultPackage{
+					d2pkgs, err := pc.FindRuntimePackages(
+						&anise_pkg.DefaultPackage{
 							Name:     d2.GetName(),
 							Category: d2.GetCategory(),
 							Version:  ">=0",
@@ -307,7 +308,7 @@ func (pc *PortageConverter) Stage3() error {
 			if err != nil {
 				return err
 			}
-			p, err := luet_pkg.DefaultPackageFromYaml(dat)
+			p, err := anise_pkg.DefaultPackageFromYaml(dat)
 			if err != nil {
 				return err
 			}
@@ -316,7 +317,7 @@ func (pc *PortageConverter) Stage3() error {
 			pack.Conflicts(resolvedRuntimeConflicts)
 
 			// Write definition.yaml
-			err = luet_tree.WriteDefinitionFile(pack, defFile)
+			err = anise_tree.WriteDefinitionFile(pack, defFile)
 			if err != nil {
 				return err
 			}
@@ -327,7 +328,7 @@ func (pc *PortageConverter) Stage3() error {
 
 			buildFile := filepath.Join(pkg.PackageDir, "build.yaml")
 			// Load Build template file
-			buildTmpl, err := NewLuetCompilationSpecSanitizedFromFile(pc.Specs.BuildTmplFile)
+			buildTmpl, err := NewAniseCompilationSpecSanitizedFromFile(pc.Specs.BuildTmplFile)
 			if err != nil {
 				return err
 			}

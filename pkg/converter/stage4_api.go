@@ -8,14 +8,14 @@ import (
 	"errors"
 	"fmt"
 
-	cfg "github.com/geaaru/luet/pkg/config"
-	. "github.com/geaaru/luet/pkg/logger"
-	luet_pkg "github.com/geaaru/luet/pkg/package"
+	cfg "github.com/macaroni-os/anise/pkg/config"
+	. "github.com/macaroni-os/anise/pkg/logger"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
 )
 
 type Stage4Leaf struct {
-	Package  *luet_pkg.DefaultPackage
-	Father   []*luet_pkg.DefaultPackage
+	Package  *anise_pkg.DefaultPackage
+	Father   []*anise_pkg.DefaultPackage
 	Position int
 	Counter  int
 }
@@ -23,18 +23,18 @@ type Stage4Leaf struct {
 type Stage4Tree struct {
 	Id   int
 	Map  map[string]*Stage4Leaf
-	Deps []*luet_pkg.DefaultPackage
+	Deps []*anise_pkg.DefaultPackage
 }
 
 type Stage4LeafCache struct {
-	MapAssign map[string]*luet_pkg.DefaultPackage
+	MapAssign map[string]*anise_pkg.DefaultPackage
 }
 
 type Stage4Levels struct {
 	Name      string
 	Levels    []*Stage4Tree
-	Map       map[string]*luet_pkg.DefaultPackage
-	Changed   map[string]*luet_pkg.DefaultPackage
+	Map       map[string]*anise_pkg.DefaultPackage
+	Changed   map[string]*anise_pkg.DefaultPackage
 	CacheLeaf map[string]*Stage4LeafCache
 
 	Quiet bool
@@ -42,15 +42,15 @@ type Stage4Levels struct {
 
 func NewStage4LeafCache() *Stage4LeafCache {
 	return &Stage4LeafCache{
-		MapAssign: make(map[string]*luet_pkg.DefaultPackage, 0),
+		MapAssign: make(map[string]*anise_pkg.DefaultPackage, 0),
 	}
 }
 
 func NewStage4Levels() *Stage4Levels {
 	return &Stage4Levels{
 		Levels:    []*Stage4Tree{},
-		Map:       make(map[string]*luet_pkg.DefaultPackage, 0),
-		Changed:   make(map[string]*luet_pkg.DefaultPackage, 0),
+		Map:       make(map[string]*anise_pkg.DefaultPackage, 0),
+		Changed:   make(map[string]*anise_pkg.DefaultPackage, 0),
 		CacheLeaf: make(map[string]*Stage4LeafCache, 0),
 		Quiet:     false,
 	}
@@ -66,7 +66,7 @@ func NewStage4LevelsWithSize(nLevels int) *Stage4Levels {
 	return ans
 }
 
-func (l *Stage4Levels) PackageHasAncient(pkg, ancient *luet_pkg.DefaultPackage, startLevel int) (bool, error) {
+func (l *Stage4Levels) PackageHasAncient(pkg, ancient *anise_pkg.DefaultPackage, startLevel int) (bool, error) {
 	ans := false
 	found := false
 	key := fmt.Sprintf("%s/%s", pkg.GetCategory(), pkg.GetName())
@@ -114,7 +114,7 @@ func (l *Stage4Levels) PackageHasAncient(pkg, ancient *luet_pkg.DefaultPackage, 
 	return ans, nil
 }
 
-func (l *Stage4Levels) GetMap() *map[string]*luet_pkg.DefaultPackage { return &l.Map }
+func (l *Stage4Levels) GetMap() *map[string]*anise_pkg.DefaultPackage { return &l.Map }
 
 func (l *Stage4Levels) Dump() string {
 	ans := ""
@@ -129,7 +129,7 @@ func (l *Stage4Levels) AddTree(t *Stage4Tree) {
 	l.Levels = append(l.Levels, t)
 }
 
-func (l *Stage4Levels) RegisterAssignment(p, father, newFather *luet_pkg.DefaultPackage) error {
+func (l *Stage4Levels) RegisterAssignment(p, father, newFather *anise_pkg.DefaultPackage) error {
 
 	key := fmt.Sprintf("%s/%s", p.GetCategory(), p.GetName())
 	fatherKey := fmt.Sprintf("%s/%s", father.GetCategory(), father.GetName())
@@ -146,7 +146,7 @@ func (l *Stage4Levels) RegisterAssignment(p, father, newFather *luet_pkg.Default
 	return nil
 }
 
-func (l *Stage4Levels) GetAssignment(p, father *luet_pkg.DefaultPackage) *luet_pkg.DefaultPackage {
+func (l *Stage4Levels) GetAssignment(p, father *anise_pkg.DefaultPackage) *anise_pkg.DefaultPackage {
 	key := fmt.Sprintf("%s/%s", p.GetCategory(), p.GetName())
 	fatherKey := fmt.Sprintf("%s/%s", father.GetCategory(), father.GetName())
 
@@ -160,7 +160,7 @@ func (l *Stage4Levels) GetAssignment(p, father *luet_pkg.DefaultPackage) *luet_p
 	return ans
 }
 
-func (l *Stage4Levels) AddDependency(p, father *luet_pkg.DefaultPackage, level int) error {
+func (l *Stage4Levels) AddDependency(p, father *anise_pkg.DefaultPackage, level int) error {
 	if level >= len(l.Levels) {
 		return errors.New("Invalid level")
 	}
@@ -189,7 +189,7 @@ func IsInStack(stack []string, pkg string) bool {
 	return ans
 }
 
-func (l *Stage4Levels) AddDependencyRecursive(p, father *luet_pkg.DefaultPackage, stack []string, level int) (bool, error) {
+func (l *Stage4Levels) AddDependencyRecursive(p, father *anise_pkg.DefaultPackage, stack []string, level int) (bool, error) {
 	var err error
 	var toInsert bool = true
 
@@ -199,7 +199,7 @@ func (l *Stage4Levels) AddDependencyRecursive(p, father *luet_pkg.DefaultPackage
 
 	key := fmt.Sprintf("%s/%s", p.GetCategory(), p.GetName())
 
-	if cfg.LuetCfg.GetLogging().Level == "debug" {
+	if cfg.AniseCfg.GetLogging().Level == "debug" {
 		DebugC(fmt.Sprintf("Adding recursive %s package to level %d (%v)", key, level+1, stack))
 	}
 
@@ -246,7 +246,7 @@ func (l *Stage4Levels) AddDependencyRecursive(p, father *luet_pkg.DefaultPackage
 	}
 }
 
-func (l *Stage4Levels) AddChangedPackage(pkg *luet_pkg.DefaultPackage) {
+func (l *Stage4Levels) AddChangedPackage(pkg *anise_pkg.DefaultPackage) {
 	key := fmt.Sprintf("%s/%s", pkg.GetCategory(), pkg.GetName())
 	l.Changed[key] = pkg
 }
@@ -255,7 +255,7 @@ func (l *Stage4Levels) analyzeLevelLeafs(pos int) (bool, error) {
 	tree := l.Levels[pos]
 	rescan := false
 
-	if cfg.LuetCfg.GetLogging().Level == "debug" {
+	if cfg.AniseCfg.GetLogging().Level == "debug" {
 		// Call this only with debug enabled.
 		DebugC(fmt.Sprintf("[%d-%d] Tree:\n%s", tree.Id, pos, tree.Dump()))
 	}
@@ -316,14 +316,14 @@ func (l *Stage4Levels) Resolve() error {
 	return nil
 }
 
-func NewStage4Leaf(pkg, father *luet_pkg.DefaultPackage, pos int) (*Stage4Leaf, error) {
+func NewStage4Leaf(pkg, father *anise_pkg.DefaultPackage, pos int) (*Stage4Leaf, error) {
 	if pkg == nil || pos < 0 {
 		return nil, errors.New("Invalid parameter on create stage4 leaf")
 	}
 
 	ans := &Stage4Leaf{
 		Package:  pkg,
-		Father:   []*luet_pkg.DefaultPackage{},
+		Father:   []*anise_pkg.DefaultPackage{},
 		Position: pos,
 		Counter:  1,
 	}
@@ -352,7 +352,7 @@ func (l *Stage4Leaf) String() string {
 	return ans
 }
 
-func (l *Stage4Leaf) AddFather(father *luet_pkg.DefaultPackage) {
+func (l *Stage4Leaf) AddFather(father *anise_pkg.DefaultPackage) {
 
 	// Check if the father is already present
 	notFound := true
@@ -371,7 +371,7 @@ func (l *Stage4Leaf) AddFather(father *luet_pkg.DefaultPackage) {
 	}
 }
 
-func (l *Stage4Leaf) DelFather(father *luet_pkg.DefaultPackage) {
+func (l *Stage4Leaf) DelFather(father *anise_pkg.DefaultPackage) {
 	pos := -1
 	for idx, f := range l.Father {
 		if f.GetCategory() == father.GetCategory() &&
@@ -396,7 +396,7 @@ func NewStage4Tree(id int) *Stage4Tree {
 	return &Stage4Tree{
 		Id:   id,
 		Map:  make(map[string]*Stage4Leaf, 0),
-		Deps: []*luet_pkg.DefaultPackage{},
+		Deps: []*anise_pkg.DefaultPackage{},
 	}
 }
 
@@ -439,9 +439,9 @@ func (t *Stage4Tree) GetMap() *map[string]*Stage4Leaf {
 	return &t.Map
 }
 
-func (t *Stage4Tree) GetDeps() *[]*luet_pkg.DefaultPackage { return &t.Deps }
+func (t *Stage4Tree) GetDeps() *[]*anise_pkg.DefaultPackage { return &t.Deps }
 
-func (t *Stage4Tree) GetDependency(pos int) (*luet_pkg.DefaultPackage, error) {
+func (t *Stage4Tree) GetDependency(pos int) (*anise_pkg.DefaultPackage, error) {
 	if len(t.Deps) <= pos {
 		return nil, errors.New("Invalid position")
 	}
@@ -449,7 +449,7 @@ func (t *Stage4Tree) GetDependency(pos int) (*luet_pkg.DefaultPackage, error) {
 	return t.Deps[pos], nil
 }
 
-func (t *Stage4Tree) DropDependency(p *luet_pkg.DefaultPackage) error {
+func (t *Stage4Tree) DropDependency(p *anise_pkg.DefaultPackage) error {
 	key := fmt.Sprintf("%s/%s", p.GetCategory(), p.GetName())
 	leaf, ok := t.Map[key]
 	if !ok {
@@ -490,7 +490,7 @@ func (t *Stage4Tree) DropDependency(p *luet_pkg.DefaultPackage) error {
 	return nil
 }
 
-func (t *Stage4Tree) AddDependency(p, father *luet_pkg.DefaultPackage) error {
+func (t *Stage4Tree) AddDependency(p, father *anise_pkg.DefaultPackage) error {
 	fatherKey := "-"
 	if father != nil {
 		fatherKey = fmt.Sprintf("%s/%s", father.GetCategory(), father.GetName())
@@ -515,7 +515,7 @@ func (t *Stage4Tree) AddDependency(p, father *luet_pkg.DefaultPackage) error {
 }
 
 // TODO: Move in another place
-func RemoveDependencyFromLuetPackage(pkg, dep *luet_pkg.DefaultPackage) error {
+func RemoveDependencyFromLuetPackage(pkg, dep *anise_pkg.DefaultPackage) error {
 
 	DebugC(GetAurora().Bold(fmt.Sprintf("Removing dep %s/%s from package %s/%s...",
 		dep.GetCategory(), dep.GetName(),
@@ -551,7 +551,7 @@ func RemoveDependencyFromLuetPackage(pkg, dep *luet_pkg.DefaultPackage) error {
 	return nil
 }
 
-func AddDependencyToLuetPackage(pkg, dep *luet_pkg.DefaultPackage) {
+func AddDependencyToLuetPackage(pkg, dep *anise_pkg.DefaultPackage) {
 
 	DebugC(fmt.Sprintf("Adding %s/%s dep to package %s/%s",
 		dep.GetCategory(), dep.GetName(),
@@ -572,7 +572,7 @@ func AddDependencyToLuetPackage(pkg, dep *luet_pkg.DefaultPackage) {
 
 		// TODO: check if we need set PackageRequires
 		pkg.PackageRequires = append(pkg.PackageRequires,
-			&luet_pkg.DefaultPackage{
+			&anise_pkg.DefaultPackage{
 				Category: dep.GetCategory(),
 				Name:     dep.GetName(),
 				Version:  ">=0",

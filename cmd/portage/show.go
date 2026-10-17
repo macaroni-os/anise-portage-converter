@@ -7,9 +7,9 @@ package cmd_portage
 import (
 	"fmt"
 
-	. "github.com/geaaru/luet/pkg/config"
-	. "github.com/geaaru/luet/pkg/logger"
 	"github.com/macaroni-os/anise-portage-converter/pkg/portage"
+	. "github.com/macaroni-os/anise/pkg/config"
+	. "github.com/macaroni-os/anise/pkg/logger"
 
 	"github.com/spf13/cobra"
 )
@@ -24,7 +24,7 @@ func NewPortageShowCommand() *cobra.Command {
 			world, _ := cmd.Flags().GetBool("world")
 
 			if debug {
-				LuetCfg.GetGeneral().Debug = debug
+				AniseCfg.GetGeneral().Debug = debug
 			}
 
 			if world {

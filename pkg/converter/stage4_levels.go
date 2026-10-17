@@ -8,15 +8,15 @@ import (
 	"errors"
 	"fmt"
 
-	//cfg "github.com/geaaru/luet/pkg/config"
-	. "github.com/geaaru/luet/pkg/logger"
-	luet_pkg "github.com/geaaru/luet/pkg/package"
+	//cfg "github.com/macaroni-os/anise/pkg/config"
+	. "github.com/macaroni-os/anise/pkg/logger"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
 )
 
 func (l *Stage4Levels) AnalyzeLeaf(pos int, tree *Stage4Tree, leaf *Stage4Leaf) (bool, error) {
-	var firstFatherLeaf *luet_pkg.DefaultPackage = nil
-	var lastFatherLeaf *luet_pkg.DefaultPackage = nil
-	var fathersHandled map[string]*luet_pkg.DefaultPackage = make(map[string]*luet_pkg.DefaultPackage, 0)
+	var firstFatherLeaf *anise_pkg.DefaultPackage = nil
+	var lastFatherLeaf *anise_pkg.DefaultPackage = nil
+	var fathersHandled map[string]*anise_pkg.DefaultPackage = make(map[string]*anise_pkg.DefaultPackage, 0)
 	rescan := false
 	isLowerLevel := false
 	nextLevel := pos - 1
@@ -52,7 +52,7 @@ func (l *Stage4Levels) AnalyzeLeaf(pos int, tree *Stage4Tree, leaf *Stage4Leaf) 
 		//       with the same dependency
 
 		if len(leaf.Father) > 0 {
-			toRemove := []*luet_pkg.DefaultPackage{}
+			toRemove := []*anise_pkg.DefaultPackage{}
 			for idx, _ := range leaf.Father {
 				if idx == 0 {
 					firstFatherLeaf = leaf.Father[idx]
@@ -116,7 +116,7 @@ func (l *Stage4Levels) AnalyzeLeaf(pos int, tree *Stage4Tree, leaf *Stage4Leaf) 
 				}
 			} else {
 
-				toRemove := []*luet_pkg.DefaultPackage{}
+				toRemove := []*anise_pkg.DefaultPackage{}
 
 				for idx, _ := range l2.Father {
 

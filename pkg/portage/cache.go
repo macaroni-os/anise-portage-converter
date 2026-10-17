@@ -12,7 +12,7 @@ import (
 	"sort"
 	"strings"
 
-	. "github.com/geaaru/luet/pkg/logger"
+	. "github.com/macaroni-os/anise/pkg/logger"
 	gentoo "github.com/geaaru/pkgs-checker/pkg/gentoo"
 )
 

@@ -18,11 +18,13 @@ import (
 	"github.com/macaroni-os/anise-portage-converter/pkg/specs"
 	"github.com/macaroni-os/anise-portage-converter/pkg/utils"
 
-	luet_config "github.com/geaaru/luet/pkg/config"
-	. "github.com/geaaru/luet/pkg/logger"
-	luet_pkg "github.com/geaaru/luet/pkg/package"
-	luet_tree "github.com/geaaru/luet/pkg/tree"
 	gentoo "github.com/geaaru/pkgs-checker/pkg/gentoo"
+	anise_config "github.com/macaroni-os/anise/pkg/config"
+	. "github.com/macaroni-os/anise/pkg/logger"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
+	"github.com/macaroni-os/anise/pkg/v2/render"
+	"github.com/macaroni-os/anise/pkg/v2/tree"
+	anise_tree "github.com/macaroni-os/anise/pkg/v2/tree"
 )
 
 var (
@@ -31,15 +33,13 @@ var (
 )
 
 type PortageConverter struct {
-	Config         *luet_config.LuetConfig
-	Cache          map[string]*specs.PortageSolution
-	ReciperBuild   luet_tree.Builder
-	ReciperRuntime luet_tree.Builder
-	Specs          *specs.PortageConverterSpecs
-	TargetDir      string
-	Solutions      []*specs.PortageSolution
-	Backend        string
-	Resolver       specs.PortageResolver
+	Config    *anise_config.AniseConfig
+	Cache     map[string]*specs.PortageSolution
+	Specs     *specs.PortageConverterSpecs
+	TargetDir string
+	Solutions []*specs.PortageSolution
+	Backend   string
+	Resolver  specs.PortageResolver
 
 	WithPortagePkgs      bool
 	Override             bool
@@ -56,15 +56,19 @@ type PortageConverter struct {
 	DisabledUseFlags     []string
 	TreePaths            []string
 	FilteredPackages     []string
+
+	TemplatesDirs []string
+	RenderValues  []string
+
+	ForestGuard  *tree.ForestGuard
+	RenderEngine *render.RenderEngine
 }
 
 func NewPortageConverter(targetDir, backend string) *PortageConverter {
 	return &PortageConverter{
 		// TODO: we use it as singleton
-		Config:               luet_config.LuetCfg,
+		Config:               anise_config.AniseCfg,
 		Cache:                make(map[string]*specs.PortageSolution, 0),
-		ReciperBuild:         luet_tree.NewCompilerRecipe(luet_pkg.NewInMemoryDatabase(false)),
-		ReciperRuntime:       luet_tree.NewInstallerRecipe(luet_pkg.NewInMemoryDatabase(false)),
 		TargetDir:            targetDir,
 		Backend:              backend,
 		Override:             false,
@@ -78,6 +82,7 @@ func NewPortageConverter(targetDir, backend string) *PortageConverter {
 		DisabledUseFlags:     []string{},
 		TreePaths:            []string{},
 		FilteredPackages:     []string{},
+		ForestGuard:          tree.NewForestGuard(anise_config.AniseCfg),
 	}
 }
 
@@ -118,6 +123,19 @@ func (pc *PortageConverter) IsFilteredPackage(pkg string) (bool, error) {
 	return ans, nil
 }
 
+func (pc *PortageConverter) PurgeTreeIndexes() error {
+	for _, tree := range pc.ForestGuard.GetTrees() {
+		err := tree.PurgeIndex(true)
+		if err != nil {
+			return err
+		}
+	}
+
+	pc.ForestGuard = anise_tree.NewForestGuard(anise_config.AniseCfg)
+
+	return nil
+}
+
 func (pc *PortageConverter) LoadTrees(treePath []string) error {
 
 	if len(pc.Specs.TreePaths) > 0 {
@@ -154,11 +172,7 @@ func (pc *PortageConverter) LoadTrees(treePath []string) error {
 func (pc *PortageConverter) loadTree(t string) error {
 	if utils.Exists(t) {
 		InfoC(fmt.Sprintf(":evergreen_tree: Loading tree %s...", t))
-		err := pc.ReciperBuild.Load(t)
-		if err != nil {
-			return errors.New("Error on load tree" + err.Error())
-		}
-		err = pc.ReciperRuntime.Load(t)
+		err := pc.ForestGuard.LoadTrees([]string{t})
 		if err != nil {
 			return errors.New("Error on load tree" + err.Error())
 		}
@@ -339,20 +353,20 @@ func (pc *PortageConverter) createSolution(pkg, treePath string, stack []string,
 
 	// Check if specs is already present. I don't check definition.yaml
 	// because with collection packages could be inside collection file.
-	pTarget := luet_pkg.NewPackage(solution.Package.Name, ">=0",
-		[]*luet_pkg.DefaultPackage{},
-		[]*luet_pkg.DefaultPackage{})
+	pTarget := anise_pkg.NewPackage(solution.Package.Name, ">=0",
+		[]*anise_pkg.DefaultPackage{},
+		[]*anise_pkg.DefaultPackage{})
 	pTarget.Category = specs.SanitizeCategory(
 		solution.Package.Category,
 		solution.Package.Slot,
 	)
 
-	p, _ := pc.ReciperRuntime.GetDatabase().FindPackages(pTarget)
+	p, _ := pc.FindRuntimePackages(pTarget)
 	// PRE: we currently consider that a package is present only one time with a single
 	//      version.
 	if p != nil {
 
-		var originPackage luet_pkg.Package
+		var originPackage anise_pkg.Package
 		for _, luetPkgTree := range p {
 
 			gpTree, err := gentoo.ParsePackageStr(fmt.Sprintf("%s/%s-%s",
@@ -412,7 +426,7 @@ func (pc *PortageConverter) createSolution(pkg, treePath string, stack []string,
 		}
 
 		if originPackage != nil {
-			solution.PackageUpgraded = originPackage.(*luet_pkg.DefaultPackage)
+			solution.PackageUpgraded = originPackage.(*anise_pkg.DefaultPackage)
 
 			if !newVersion && !pc.Override {
 				if !pc.CheckUpdate4Deps || len(stack) > 1 {
@@ -469,17 +483,17 @@ func (pc *PortageConverter) createSolution(pkg, treePath string, stack []string,
 				continue
 			}
 
-			dep := luet_pkg.NewPackage(bdep.Name, ">=0",
-				[]*luet_pkg.DefaultPackage{},
-				[]*luet_pkg.DefaultPackage{})
+			dep := anise_pkg.NewPackage(bdep.Name, ">=0",
+				[]*anise_pkg.DefaultPackage{},
+				[]*anise_pkg.DefaultPackage{})
 			dep.Category = specs.SanitizeCategory(bdep.Category, bdep.Slot)
 
 			// Check if it's present the build dep on the tree
-			p, _ := pc.ReciperBuild.GetDatabase().FindPackages(dep)
+			p, _ := pc.FindBuildtimePackages(dep)
 			if pc.CheckUpdate4Deps || p == nil {
 
 				// Check if there is a runtime deps/provide for this
-				p, _ := pc.ReciperRuntime.GetDatabase().FindPackages(dep)
+				p, _ := pc.FindRuntimePackages(dep)
 				if p == nil {
 					// Now we use the same treePath.
 					err := pc.createSolution(dep_str, treePath, stack, artefact)
@@ -579,9 +593,9 @@ func (pc *PortageConverter) createSolution(pkg, treePath string, stack []string,
 				dep_str += ":" + rdep.Slot
 			}
 
-			dep := luet_pkg.NewPackage(rdep.Name, ">=0",
-				[]*luet_pkg.DefaultPackage{},
-				[]*luet_pkg.DefaultPackage{})
+			dep := anise_pkg.NewPackage(rdep.Name, ">=0",
+				[]*anise_pkg.DefaultPackage{},
+				[]*anise_pkg.DefaultPackage{})
 			dep.Category = specs.SanitizeCategory(rdep.Category, rdep.Slot)
 
 			// Check if there is a layer to use for the dependency
@@ -601,7 +615,7 @@ func (pc *PortageConverter) createSolution(pkg, treePath string, stack []string,
 			}
 
 			// Check if it's present the build dep on the tree
-			p, _ := pc.ReciperRuntime.GetDatabase().FindPackages(dep)
+			p, _ := pc.FindRuntimePackages(dep)
 			if p == nil || pc.CheckUpdate4Deps {
 
 				if !pc.SkipRDepsGeneration {
@@ -690,8 +704,8 @@ func (pc *PortageConverter) createSolution(pkg, treePath string, stack []string,
 	return nil
 }
 
-func (pc *PortageConverter) createPortagePackage(pkg *specs.PortageSolution, originalPackage *luet_pkg.DefaultPackage) error {
-	buildTmpl, err := NewLuetCompilationSpecSanitizedFromFile(pc.Specs.BuildPortageTmplFile)
+func (pc *PortageConverter) createPortagePackage(pkg *specs.PortageSolution, originalPackage *anise_pkg.DefaultPackage) error {
+	buildTmpl, err := NewAniseCompilationSpecSanitizedFromFile(pc.Specs.BuildPortageTmplFile)
 	if err != nil {
 		return errors.New("Error on load template: " + err.Error())
 	}
@@ -705,7 +719,7 @@ func (pc *PortageConverter) createPortagePackage(pkg *specs.PortageSolution, ori
 	defFile := filepath.Join(portagePkgDir, "definition.yaml")
 	buildFile := filepath.Join(portagePkgDir, "build.yaml")
 
-	dep := &luet_pkg.DefaultPackage{
+	dep := &anise_pkg.DefaultPackage{
 		Name:     originalPackage.Name,
 		Category: originalPackage.Category,
 		Version:  originalPackage.Version,
@@ -717,22 +731,22 @@ func (pc *PortageConverter) createPortagePackage(pkg *specs.PortageSolution, ori
 	labels["emerge.packages"] = originalPackage.Labels["emerge.packages"]
 	labels["kit"] = originalPackage.Labels["kit"]
 
-	pack := &luet_pkg.DefaultPackage{
+	pack := &anise_pkg.DefaultPackage{
 		Name:     fmt.Sprintf("%s-portage", pkg.Package.Name),
 		Category: originalPackage.Category,
 		Version:  originalPackage.Version,
 		Labels:   labels,
 	}
-	pack.Requires([]*luet_pkg.DefaultPackage{dep})
+	pack.Requires([]*anise_pkg.DefaultPackage{dep})
 
 	// Write definition.yaml
-	err = luet_tree.WriteDefinitionFile(pack, defFile)
+	err = anise_tree.WriteDefinitionFile(pack, defFile)
 	if err != nil {
 		return err
 	}
 
 	buildPack, _ := buildTmpl.Clone()
-	buildPack.AddRequires([]*luet_pkg.DefaultPackage{dep})
+	buildPack.AddRequires([]*anise_pkg.DefaultPackage{dep})
 	err = buildPack.WriteBuildDefinition(buildFile)
 	if err != nil {
 		return err
@@ -793,7 +807,7 @@ func (pc *PortageConverter) InitConverter(showBanner bool) error {
 
 func (pc *PortageConverter) Generate() error {
 	// Load Build template file
-	buildTmpl, err := NewLuetCompilationSpecSanitizedFromFile(pc.Specs.BuildTmplFile)
+	buildTmpl, err := NewAniseCompilationSpecSanitizedFromFile(pc.Specs.BuildTmplFile)
 	if err != nil {
 		return errors.New("Error on load template: " + err.Error())
 	}
@@ -884,7 +898,7 @@ func (pc *PortageConverter) Generate() error {
 			pack.SetPath("")
 
 			// Write definition.yaml
-			err = luet_tree.WriteDefinitionFile(pack, defFile)
+			err = anise_tree.WriteDefinitionFile(pack, defFile)
 			if err != nil {
 				return err
 			}
@@ -916,7 +930,7 @@ func (pc *PortageConverter) Generate() error {
 			}
 
 			// Write definition.yaml
-			err = luet_tree.WriteDefinitionFile(pack, defFile)
+			err = anise_tree.WriteDefinitionFile(pack, defFile)
 			if err != nil {
 				return err
 			}

@@ -6,7 +6,7 @@ package converter_test
 
 import (
 	//"fmt"
-	luet_pkg "github.com/geaaru/luet/pkg/package"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
 
 	. "github.com/macaroni-os/anise-portage-converter/pkg/converter"
 
@@ -14,8 +14,8 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func NewPackage(name, cat, version string, deps []*luet_pkg.DefaultPackage) *luet_pkg.DefaultPackage {
-	return &luet_pkg.DefaultPackage{
+func NewPackage(name, cat, version string, deps []*anise_pkg.DefaultPackage) *anise_pkg.DefaultPackage {
+	return &anise_pkg.DefaultPackage{
 		Name:            name,
 		Category:        cat,
 		Version:         version,
@@ -27,20 +27,20 @@ var _ = Describe("Converter", func() {
 	Context("Stage4 - PackageHasAncient", func() {
 
 		p1 := NewPackage("A", "cat1", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("B", "cat1", ">=0", nil),
 				NewPackage("C", "cat1", ">=0", nil),
 			},
 		)
 		p2 := NewPackage("B", "cat1", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("D", "cat1", ">=0", nil),
 				NewPackage("C", "cat1", ">=0", nil),
 			},
 		)
 
 		p3 := NewPackage("C", "cat1", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("D", "cat1", ">=0", nil),
 			},
 		)

@@ -7,7 +7,7 @@ package converter_test
 import (
 	"fmt"
 
-	luet_pkg "github.com/geaaru/luet/pkg/package"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
 
 	. "github.com/macaroni-os/anise-portage-converter/pkg/converter"
 
@@ -16,8 +16,8 @@ import (
 )
 
 /*
-func NewPackage(name, cat, version string, deps []*luet_pkg.DefaultPackage) *luet_pkg.DefaultPackage {
-	return &luet_pkg.DefaultPackage{
+func NewPackage(name, cat, version string, deps []*anise_pkg.DefaultPackage) *anise_pkg.DefaultPackage {
+	return &anise_pkg.DefaultPackage{
 		Name:            name,
 		Category:        cat,
 		Version:         version,
@@ -31,20 +31,20 @@ var _ = Describe("Converter", func() {
 
 		fmt.Println("TEST")
 		p1 := NewPackage("A", "cat1", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("B", "cat1", ">=0", nil),
 				NewPackage("C", "cat1", ">=0", nil),
 			},
 		)
 		p2 := NewPackage("B", "cat1", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("D", "cat1", ">=0", nil),
 				NewPackage("C", "cat1", ">=0", nil),
 			},
 		)
 
 		p3 := NewPackage("C", "cat1", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("D", "cat1", ">=0", nil),
 			},
 		)
@@ -52,7 +52,7 @@ var _ = Describe("Converter", func() {
 		It("Drop dependency1", func() {
 
 			p := NewPackage("C", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("D", "cat1", ">=0", nil),
 					NewPackage("A", "cat1", ">=0", nil),
 				},
@@ -66,7 +66,7 @@ var _ = Describe("Converter", func() {
 		It("Drop dependency2", func() {
 
 			p := NewPackage("C", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("D", "cat1", ">=0", nil),
 					NewPackage("A", "cat1", ">=0", nil),
 				},
@@ -80,7 +80,7 @@ var _ = Describe("Converter", func() {
 		It("Drop dependency3", func() {
 
 			p := NewPackage("C", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("D", "cat1", ">=0", nil),
 					NewPackage("A", "cat1", ">=0", nil),
 				},
@@ -267,20 +267,20 @@ var _ = Describe("Converter", func() {
 		It("Check clean of the father", func() {
 
 			p1 := NewPackage("A", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("B", "cat1", ">=0", nil),
 					NewPackage("C", "cat1", ">=0", nil),
 				},
 			)
 
 			p2 := NewPackage("B", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("C", "cat1", ">=0", nil),
 				},
 			)
 
 			p3 := NewPackage("C", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("D", "cat1", ">=0", nil),
 				},
 			)
@@ -334,16 +334,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3, p4},
+				[]*anise_pkg.DefaultPackage{p3, p4},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2, p3, p4},
+				[]*anise_pkg.DefaultPackage{p2, p3, p4},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2, p3, p4},
+				[]*anise_pkg.DefaultPackage{p1, p2, p3, p4},
 			))
 
 			// Check Maps
@@ -351,7 +351,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -360,13 +360,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 1,
 						Counter:  1,
 					},
@@ -376,19 +376,19 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1, p2},
+						Father:   []*anise_pkg.DefaultPackage{p1, p2},
 						Position: 1,
 						Counter:  2,
 					},
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 2,
 						Counter:  1,
 					},
@@ -398,25 +398,25 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 2,
 						Counter:  1,
 					},
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 3,
 						Counter:  1,
 					},
@@ -433,16 +433,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2, p3},
+				[]*anise_pkg.DefaultPackage{p2, p3},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2, p3},
+				[]*anise_pkg.DefaultPackage{p1, p2, p3},
 			))
 
 			// Check Maps
@@ -450,7 +450,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -459,7 +459,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -469,13 +469,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1, p2},
+						Father:   []*anise_pkg.DefaultPackage{p1, p2},
 						Position: 1,
 						Counter:  2,
 					},
@@ -485,19 +485,19 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 2,
 						Counter:  1,
 					},
@@ -515,16 +515,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2},
+				[]*anise_pkg.DefaultPackage{p2},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2},
+				[]*anise_pkg.DefaultPackage{p1, p2},
 			))
 
 			// Check Maps
@@ -532,7 +532,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -541,7 +541,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -551,7 +551,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
@@ -561,13 +561,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
@@ -585,16 +585,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2},
+				[]*anise_pkg.DefaultPackage{p2},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1},
+				[]*anise_pkg.DefaultPackage{p1},
 			))
 
 			// Check Maps
@@ -602,7 +602,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -611,7 +611,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -621,7 +621,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
@@ -631,7 +631,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
@@ -649,16 +649,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2},
+				[]*anise_pkg.DefaultPackage{p2},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1},
+				[]*anise_pkg.DefaultPackage{p1},
 			))
 
 			// Check Maps
@@ -666,7 +666,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -675,7 +675,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -685,7 +685,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
@@ -695,7 +695,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
@@ -709,21 +709,21 @@ var _ = Describe("Converter", func() {
 			errs := make([]error, 0)
 
 			p1 := NewPackage("A", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("B", "cat1", ">=0", nil),
 					NewPackage("C", "cat1", ">=0", nil),
 				},
 			)
 
 			p2 := NewPackage("B", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("D", "cat1", ">=0", nil),
 					NewPackage("C", "cat1", ">=0", nil),
 				},
 			)
 
 			p3 := NewPackage("C", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("D", "cat1", ">=0", nil),
 				},
 			)
@@ -779,16 +779,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4, p3},
+				[]*anise_pkg.DefaultPackage{p4, p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2, p3, p4},
+				[]*anise_pkg.DefaultPackage{p2, p3, p4},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2, p3, p4},
+				[]*anise_pkg.DefaultPackage{p1, p2, p3, p4},
 			))
 
 			// Check Maps
@@ -796,7 +796,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -806,13 +806,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p2, p3},
+						Father:   []*anise_pkg.DefaultPackage{p2, p3},
 						Position: 0,
 						Counter:  2,
 					},
@@ -823,19 +823,19 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1, p2},
+						Father:   []*anise_pkg.DefaultPackage{p1, p2},
 						Position: 1,
 						Counter:  2,
 					},
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p2, p3},
+						Father:   []*anise_pkg.DefaultPackage{p2, p3},
 						Position: 2,
 						Counter:  2,
 					},
@@ -846,25 +846,25 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 2,
 						Counter:  1,
 					},
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 3,
 						Counter:  1,
 					},
@@ -886,16 +886,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2, p3},
+				[]*anise_pkg.DefaultPackage{p2, p3},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2, p3},
+				[]*anise_pkg.DefaultPackage{p1, p2, p3},
 			))
 
 			// Check Maps
@@ -903,7 +903,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -912,7 +912,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -923,13 +923,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1, p2},
+						Father:   []*anise_pkg.DefaultPackage{p1, p2},
 						Position: 1,
 						Counter:  2,
 					},
@@ -939,19 +939,19 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 2,
 						Counter:  1,
 					},
@@ -973,16 +973,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2},
+				[]*anise_pkg.DefaultPackage{p2},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2},
+				[]*anise_pkg.DefaultPackage{p1, p2},
 			))
 
 			// Check Maps
@@ -990,7 +990,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -999,7 +999,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1010,7 +1010,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1020,13 +1020,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
@@ -1048,16 +1048,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2},
+				[]*anise_pkg.DefaultPackage{p2},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1},
+				[]*anise_pkg.DefaultPackage{p1},
 			))
 
 			// Check Maps
@@ -1065,7 +1065,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1074,7 +1074,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1085,7 +1085,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1095,7 +1095,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1108,19 +1108,19 @@ var _ = Describe("Converter", func() {
 			errs := make([]error, 0)
 
 			p1 := NewPackage("A", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("C", "cat1", ">=0", nil),
 				},
 			)
 
 			p2 := NewPackage("B", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("C", "cat1", ">=0", nil),
 				},
 			)
 
 			p3 := NewPackage("C", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("D", "cat1", ">=0", nil),
 				},
 			)
@@ -1163,13 +1163,13 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3, p4},
+				[]*anise_pkg.DefaultPackage{p3, p4},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2, p3, p4},
+				[]*anise_pkg.DefaultPackage{p1, p2, p3, p4},
 			))
 
 			// Check Maps
@@ -1177,7 +1177,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1186,13 +1186,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1, p2},
+						Father:   []*anise_pkg.DefaultPackage{p1, p2},
 						Position: 0,
 						Counter:  2,
 					},
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 1,
 						Counter:  1,
 					},
@@ -1202,25 +1202,25 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 2,
 						Counter:  1,
 					},
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 3,
 						Counter:  1,
 					},
@@ -1241,13 +1241,13 @@ var _ = Describe("Converter", func() {
 			Expect(rescan).Should(Equal(false))
 			// Check Deps
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2, p3},
+				[]*anise_pkg.DefaultPackage{p1, p2, p3},
 			))
 
 			// Check Maps
@@ -1255,7 +1255,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1264,7 +1264,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1, p2},
+						Father:   []*anise_pkg.DefaultPackage{p1, p2},
 						Position: 0,
 						Counter:  2,
 					},
@@ -1274,19 +1274,19 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 2,
 						Counter:  1,
 					},
@@ -1306,16 +1306,16 @@ var _ = Describe("Converter", func() {
 			Expect(rescan).Should(Equal(true))
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4, p3},
+				[]*anise_pkg.DefaultPackage{p4, p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3, p1},
+				[]*anise_pkg.DefaultPackage{p3, p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2},
+				[]*anise_pkg.DefaultPackage{p1, p2},
 			))
 
 			// Check Maps
@@ -1324,7 +1324,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1333,13 +1333,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 1,
 						Counter:  1,
 					}},
@@ -1348,13 +1348,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 1,
 						Counter:  1,
 					},
@@ -1364,13 +1364,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
@@ -1390,16 +1390,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3, p1},
+				[]*anise_pkg.DefaultPackage{p3, p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2},
+				[]*anise_pkg.DefaultPackage{p1, p2},
 			))
 
 			// Check Maps
@@ -1408,7 +1408,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1417,7 +1417,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1427,13 +1427,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 1,
 						Counter:  1,
 					},
@@ -1443,13 +1443,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
@@ -1469,16 +1469,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1},
+				[]*anise_pkg.DefaultPackage{p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2},
+				[]*anise_pkg.DefaultPackage{p1, p2},
 			))
 
 			// Check Maps
@@ -1487,7 +1487,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1496,7 +1496,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1506,7 +1506,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1516,13 +1516,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
@@ -1542,16 +1542,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1},
+				[]*anise_pkg.DefaultPackage{p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2},
+				[]*anise_pkg.DefaultPackage{p2},
 			))
 
 			// Check Maps
@@ -1560,7 +1560,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1569,7 +1569,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1579,7 +1579,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1589,7 +1589,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1609,16 +1609,16 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1},
+				[]*anise_pkg.DefaultPackage{p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2},
+				[]*anise_pkg.DefaultPackage{p2},
 			))
 
 			// Check Maps
@@ -1627,7 +1627,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1636,7 +1636,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1646,7 +1646,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1656,7 +1656,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1670,20 +1670,20 @@ var _ = Describe("Converter", func() {
 			levels := NewStage4LevelsWithSize(5)
 
 			p1 := NewPackage("A", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("E", "cat1", ">=0", nil),
 					NewPackage("C", "cat1", ">=0", nil),
 				},
 			)
 
 			p2 := NewPackage("B", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("C", "cat1", ">=0", nil),
 				},
 			)
 
 			p3 := NewPackage("C", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("D", "cat1", ">=0", nil),
 				},
 			)
@@ -1691,7 +1691,7 @@ var _ = Describe("Converter", func() {
 			p4 := NewPackage("D", "cat1", "1.0", nil)
 
 			p5 := NewPackage("E", "cat1", "1.0",
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					NewPackage("D", "cat1", ">=0", nil),
 				},
 			)
@@ -1735,19 +1735,19 @@ var _ = Describe("Converter", func() {
 			fmt.Println("LEVELS\n", levels.Dump())
 			// Check Deps
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{},
+				[]*anise_pkg.DefaultPackage{},
 			))
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{},
+				[]*anise_pkg.DefaultPackage{},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5, p3, p4},
+				[]*anise_pkg.DefaultPackage{p5, p3, p4},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2, p3, p4, p5},
+				[]*anise_pkg.DefaultPackage{p1, p2, p3, p4, p5},
 			))
 
 			// Check Maps
@@ -1761,7 +1761,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5, p3},
+						Father:   []*anise_pkg.DefaultPackage{p5, p3},
 						Position: 0,
 						Counter:  2,
 					}},
@@ -1771,19 +1771,19 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1, p2},
+						Father:   []*anise_pkg.DefaultPackage{p1, p2},
 						Position: 1,
 						Counter:  2,
 					},
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p3, p5},
+						Father:   []*anise_pkg.DefaultPackage{p3, p5},
 						Position: 2,
 						Counter:  2,
 					},
@@ -1793,31 +1793,31 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 2,
 						Counter:  1,
 					},
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 3,
 						Counter:  1,
 					},
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 4,
 						Counter:  1,
 					},
@@ -1844,7 +1844,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1853,14 +1853,14 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					},
 
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 1,
 						Counter:  1,
 					}},
@@ -1870,13 +1870,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1, p2},
+						Father:   []*anise_pkg.DefaultPackage{p1, p2},
 						Position: 1,
 						Counter:  2,
 					},
@@ -1887,25 +1887,25 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 2,
 						Counter:  1,
 					},
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 3,
 						Counter:  1,
 					},
@@ -1927,19 +1927,19 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{},
+				[]*anise_pkg.DefaultPackage{},
 			))
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5},
+				[]*anise_pkg.DefaultPackage{p5},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5, p3},
+				[]*anise_pkg.DefaultPackage{p5, p3},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2, p3, p5},
+				[]*anise_pkg.DefaultPackage{p1, p2, p3, p5},
 			))
 
 			Expect(levels.Levels[4].Map).Should(Equal(
@@ -1949,7 +1949,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1959,7 +1959,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -1969,13 +1969,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1, p2},
+						Father:   []*anise_pkg.DefaultPackage{p1, p2},
 						Position: 1,
 						Counter:  2,
 					},
@@ -1986,25 +1986,25 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 2,
 						Counter:  1,
 					},
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 3,
 						Counter:  1,
 					},
@@ -2026,19 +2026,19 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{},
+				[]*anise_pkg.DefaultPackage{},
 			))
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5},
+				[]*anise_pkg.DefaultPackage{p5},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2, p3},
+				[]*anise_pkg.DefaultPackage{p1, p2, p3},
 			))
 
 			Expect(levels.Levels[4].Map).Should(Equal(
@@ -2048,7 +2048,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -2058,7 +2058,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					}},
@@ -2068,7 +2068,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1, p2},
+						Father:   []*anise_pkg.DefaultPackage{p1, p2},
 						Position: 0,
 						Counter:  2,
 					},
@@ -2079,19 +2079,19 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 2,
 						Counter:  1,
 					},
@@ -2113,26 +2113,26 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4, p5},
+				[]*anise_pkg.DefaultPackage{p4, p5},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5, p3},
+				[]*anise_pkg.DefaultPackage{p5, p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3, p1},
+				[]*anise_pkg.DefaultPackage{p3, p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2},
+				[]*anise_pkg.DefaultPackage{p1, p2},
 			))
 
 			Expect(levels.Levels[4].Map).Should(Equal(
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2142,13 +2142,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 1,
 						Counter:  1,
 					},
@@ -2159,13 +2159,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 1,
 						Counter:  1,
 					},
@@ -2176,13 +2176,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 1,
 						Counter:  1,
 					},
@@ -2193,13 +2193,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
@@ -2221,26 +2221,26 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5},
+				[]*anise_pkg.DefaultPackage{p5},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5, p3},
+				[]*anise_pkg.DefaultPackage{p5, p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3, p1},
+				[]*anise_pkg.DefaultPackage{p3, p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2},
+				[]*anise_pkg.DefaultPackage{p1, p2},
 			))
 
 			Expect(levels.Levels[4].Map).Should(Equal(
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2250,7 +2250,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2261,13 +2261,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 1,
 						Counter:  1,
 					},
@@ -2278,13 +2278,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 1,
 						Counter:  1,
 					},
@@ -2295,13 +2295,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
@@ -2323,26 +2323,26 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5},
+				[]*anise_pkg.DefaultPackage{p5},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3, p1},
+				[]*anise_pkg.DefaultPackage{p3, p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2},
+				[]*anise_pkg.DefaultPackage{p1, p2},
 			))
 
 			Expect(levels.Levels[4].Map).Should(Equal(
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2352,7 +2352,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2363,7 +2363,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2374,13 +2374,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 1,
 						Counter:  1,
 					},
@@ -2391,13 +2391,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
@@ -2419,26 +2419,26 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5},
+				[]*anise_pkg.DefaultPackage{p5},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1},
+				[]*anise_pkg.DefaultPackage{p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1, p2},
+				[]*anise_pkg.DefaultPackage{p1, p2},
 			))
 
 			Expect(levels.Levels[4].Map).Should(Equal(
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2448,7 +2448,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2459,7 +2459,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2470,7 +2470,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2481,13 +2481,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 1,
 						Counter:  1,
 					},
@@ -2509,26 +2509,26 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5},
+				[]*anise_pkg.DefaultPackage{p5},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1},
+				[]*anise_pkg.DefaultPackage{p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2},
+				[]*anise_pkg.DefaultPackage{p2},
 			))
 
 			Expect(levels.Levels[4].Map).Should(Equal(
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2538,7 +2538,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2549,7 +2549,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2560,7 +2560,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2571,7 +2571,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2593,26 +2593,26 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p4},
+				[]*anise_pkg.DefaultPackage{p4},
 			))
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p5},
+				[]*anise_pkg.DefaultPackage{p5},
 			))
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p3},
+				[]*anise_pkg.DefaultPackage{p3},
 			))
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p1},
+				[]*anise_pkg.DefaultPackage{p1},
 			))
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{p2},
+				[]*anise_pkg.DefaultPackage{p2},
 			))
 
 			Expect(levels.Levels[4].Map).Should(Equal(
 				map[string]*Stage4Leaf{
 					"cat1/D": &Stage4Leaf{
 						Package:  p4,
-						Father:   []*luet_pkg.DefaultPackage{p5},
+						Father:   []*anise_pkg.DefaultPackage{p5},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2622,7 +2622,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/E": &Stage4Leaf{
 						Package:  p5,
-						Father:   []*luet_pkg.DefaultPackage{p3},
+						Father:   []*anise_pkg.DefaultPackage{p3},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2633,7 +2633,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/C": &Stage4Leaf{
 						Package:  p3,
-						Father:   []*luet_pkg.DefaultPackage{p1},
+						Father:   []*anise_pkg.DefaultPackage{p1},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2644,7 +2644,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/A": &Stage4Leaf{
 						Package:  p1,
-						Father:   []*luet_pkg.DefaultPackage{p2},
+						Father:   []*anise_pkg.DefaultPackage{p2},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2655,7 +2655,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"cat1/B": &Stage4Leaf{
 						Package:  p2,
-						Father:   []*luet_pkg.DefaultPackage{},
+						Father:   []*anise_pkg.DefaultPackage{},
 						Position: 0,
 						Counter:  1,
 					},

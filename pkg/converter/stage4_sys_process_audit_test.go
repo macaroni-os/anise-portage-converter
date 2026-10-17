@@ -7,7 +7,7 @@ package converter_test
 import (
 	"fmt"
 
-	luet_pkg "github.com/geaaru/luet/pkg/package"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
 
 	. "github.com/macaroni-os/anise-portage-converter/pkg/converter"
 
@@ -19,67 +19,67 @@ var _ = Describe("Converter", func() {
 	Context("Stage4 sys-process/audit", func() {
 
 		bzip2 := NewPackage("bzip2", "app-arch", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("build-seed", "layers", ">=0", nil),
 			},
 		)
 
 		layer_gentoo_portage := NewPackage("gentoo-portage", "layer", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("gentoo-stage3", "layer", ">=0", nil),
 			},
 		)
 
 		lang_swig := NewPackage("swig", "dev-lang", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("libpcre", "dev-libs-3", ">=0", nil),
 			},
 		)
 
 		virtual_pkgconfig := NewPackage("pkgconfig", "virtual", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("build-seed", "layers", ">=0", nil),
 			},
 		)
 
 		autoconf := NewPackage("autoconf", "sys-devel-2.69", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("build-seed", "layers", ">=0", nil),
 			},
 		)
 
 		linux_headers := NewPackage("linux-headers", "sys-kernel", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("build-seed", "layers", ">=0", nil),
 			},
 		)
 
 		python_exec := NewPackage("python-exec", "dev-lang-2", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("build-seed", "layers", ">=0", nil),
 			},
 		)
 
 		mos_overlay_x := NewPackage("mocaccino-overlay-x", "development", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("gentoo-portage", "layer", ">=0", nil),
 			},
 		)
 
 		build_seed := NewPackage("build-seed", "layers", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("mocaccino-overlay-x", "development", ">=0", nil),
 			},
 		)
 
 		zlib := NewPackage("zlib", "sys-libs", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("build-seed", "layers", ">=0", nil),
 			},
 		)
 
 		libpcre := NewPackage("libpcre", "dev-libs-3", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("bzip2", "app-arch", ">=0", nil),
 				NewPackage("readline", "sys-libs", ">=0", nil),
 				NewPackage("zlib", "sys-libs", ">=0", nil),
@@ -87,33 +87,33 @@ var _ = Describe("Converter", func() {
 		)
 
 		automake := NewPackage("automake", "sys-devel-1.16", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("build-seed", "layers", ">=0", nil),
 			},
 		)
 
 		libtool := NewPackage("libtool", "sys-devel-2", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("build-seed", "layers", ">=0", nil),
 			},
 		)
 
 		audit := NewPackage("audit", "sys-process", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("libcap-ng", "sys-libs", ">=0", nil),
 				NewPackage("pkgconfig", "virtual", ">=0", nil),
 			},
 		)
 
 		readline := NewPackage("readline", "sys-libs", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("ncurses", "sys-libs", ">=0", nil),
 				NewPackage("pkgconfig", "virtual", ">=0", nil),
 			},
 		)
 
 		libcap_ng := NewPackage("libcap-ng", "sys-libs", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("python-exec", "dev-lang-2", ">=0", nil),
 				NewPackage("swig", "dev-lang", ">=0", nil),
 				NewPackage("autoconf", "sys-devel-2.69", ">=0", nil),
@@ -124,11 +124,11 @@ var _ = Describe("Converter", func() {
 		)
 
 		gentoo_stage3 := NewPackage("gentoo-stage3", "layer", "1.0",
-			[]*luet_pkg.DefaultPackage{},
+			[]*anise_pkg.DefaultPackage{},
 		)
 
 		ncurses := NewPackage("ncurses", "sys-libs", "1.0",
-			[]*luet_pkg.DefaultPackage{
+			[]*anise_pkg.DefaultPackage{
 				NewPackage("build-seed", "layers", ">=0", nil),
 			},
 		)
@@ -219,20 +219,20 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[9].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					gentoo_stage3,
 				},
 			))
 
 			Expect(levels.Levels[8].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					gentoo_stage3,
 					layer_gentoo_portage,
 				},
 			))
 
 			Expect(levels.Levels[7].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					gentoo_stage3,
 					layer_gentoo_portage,
 					mos_overlay_x,
@@ -240,7 +240,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[6].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					gentoo_stage3,
 					layer_gentoo_portage,
 					mos_overlay_x,
@@ -249,7 +249,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[5].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					layer_gentoo_portage,
 					mos_overlay_x,
 					gentoo_stage3,
@@ -260,7 +260,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					gentoo_stage3,
 					mos_overlay_x,
 					build_seed,
@@ -274,7 +274,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					layer_gentoo_portage,
 					build_seed,
 					ncurses,
@@ -289,7 +289,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					mos_overlay_x,
 					bzip2,
 					readline,
@@ -310,7 +310,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					build_seed,
 					gentoo_stage3,
 					libpcre,
@@ -332,7 +332,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					bzip2,
 					layer_gentoo_portage,
 					lang_swig,
@@ -358,7 +358,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-stage3": &Stage4Leaf{
 						Package:  gentoo_stage3,
-						Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+						Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 						Position: 0,
 						Counter:  1,
 					},
@@ -368,13 +368,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-stage3": &Stage4Leaf{
 						Package:  gentoo_stage3,
-						Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+						Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 						Position: 0,
 						Counter:  1,
 					},
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 1,
 						Counter:  1,
 					},
@@ -385,19 +385,19 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-stage3": &Stage4Leaf{
 						Package:  gentoo_stage3,
-						Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+						Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 						Position: 0,
 						Counter:  1,
 					},
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 1,
 						Counter:  1,
 					},
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 2,
 						Counter:  1,
 					},
@@ -408,25 +408,25 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-stage3": &Stage4Leaf{
 						Package:  gentoo_stage3,
-						Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+						Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 						Position: 0,
 						Counter:  1,
 					},
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 1,
 						Counter:  1,
 					},
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 2,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{ncurses, virtual_pkgconfig},
+						Father:   []*anise_pkg.DefaultPackage{ncurses, virtual_pkgconfig},
 						Position: 3,
 						Counter:  2,
 					},
@@ -437,37 +437,37 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 0,
 						Counter:  1,
 					},
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 1,
 						Counter:  1,
 					},
 					"layer/gentoo-stage3": &Stage4Leaf{
 						Package:  gentoo_stage3,
-						Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+						Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 						Position: 2,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{bzip2, zlib, ncurses, virtual_pkgconfig},
+						Father:   []*anise_pkg.DefaultPackage{bzip2, zlib, ncurses, virtual_pkgconfig},
 						Position: 3,
 						Counter:  4,
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 4,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 5,
 						Counter:  1,
 					},
@@ -478,55 +478,55 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-stage3": &Stage4Leaf{
 						Package:  gentoo_stage3,
-						Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+						Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 						Position: 0,
 						Counter:  1,
 					},
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 1,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{ncurses, virtual_pkgconfig, bzip2, zlib},
+						Father:   []*anise_pkg.DefaultPackage{ncurses, virtual_pkgconfig, bzip2, zlib},
 						Position: 2,
 						Counter:  4,
 					},
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 3,
 						Counter:  1,
 					},
 					"app-arch/bzip2": &Stage4Leaf{
 						Package:  bzip2,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 4,
 						Counter:  1,
 					},
 					"sys-libs/readline": &Stage4Leaf{
 						Package:  readline,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 5,
 						Counter:  1,
 					},
 					"sys-libs/zlib": &Stage4Leaf{
 						Package:  zlib,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 6,
 						Counter:  1,
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 7,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 8,
 						Counter:  1,
 					},
@@ -537,13 +537,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 0,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package: build_seed,
-						Father: []*luet_pkg.DefaultPackage{
+						Father: []*anise_pkg.DefaultPackage{
 							bzip2, zlib, ncurses, virtual_pkgconfig, python_exec,
 							autoconf, automake, libtool, linux_headers,
 						},
@@ -552,49 +552,49 @@ var _ = Describe("Converter", func() {
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 2,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 3,
 						Counter:  1,
 					},
 					"layer/gentoo-stage3": &Stage4Leaf{
 						Package:  gentoo_stage3,
-						Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+						Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 						Position: 4,
 						Counter:  1,
 					},
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 5,
 						Counter:  1,
 					},
 					"dev-libs-3/libpcre": &Stage4Leaf{
 						Package:  libpcre,
-						Father:   []*luet_pkg.DefaultPackage{lang_swig},
+						Father:   []*anise_pkg.DefaultPackage{lang_swig},
 						Position: 6,
 						Counter:  1,
 					},
 					"app-arch/bzip2": &Stage4Leaf{
 						Package:  bzip2,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 7,
 						Counter:  1,
 					},
 					"sys-libs/readline": &Stage4Leaf{
 						Package:  readline,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 8,
 						Counter:  1,
 					},
 					"sys-libs/zlib": &Stage4Leaf{
 						Package:  zlib,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 9,
 						Counter:  1,
 					},
@@ -604,7 +604,7 @@ var _ = Describe("Converter", func() {
 			v, _ := levels.Levels[2].Map["development/mocaccino-overlay-x"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  mos_overlay_x,
-				Father:   []*luet_pkg.DefaultPackage{build_seed},
+				Father:   []*anise_pkg.DefaultPackage{build_seed},
 				Position: 0,
 				Counter:  1,
 			},
@@ -613,7 +613,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 1,
 				Counter:  1,
 			},
@@ -622,7 +622,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 2,
 				Counter:  1,
 			},
@@ -631,7 +631,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 3,
 				Counter:  1,
 			},
@@ -640,7 +640,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["layer/gentoo-stage3"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  gentoo_stage3,
-				Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+				Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 				Position: 4,
 				Counter:  1,
 			},
@@ -649,7 +649,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["layer/gentoo-portage"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  layer_gentoo_portage,
-				Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+				Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 				Position: 5,
 				Counter:  1,
 			},
@@ -658,7 +658,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package: build_seed,
-				Father: []*luet_pkg.DefaultPackage{
+				Father: []*anise_pkg.DefaultPackage{
 					bzip2, zlib, virtual_pkgconfig, ncurses, python_exec,
 					autoconf, automake, libtool, linux_headers,
 				},
@@ -670,7 +670,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 7,
 				Counter:  1,
 			},
@@ -679,7 +679,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 8,
 				Counter:  1,
 			},
@@ -688,7 +688,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 9,
 				Counter:  1,
 			},
@@ -697,7 +697,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 10,
 				Counter:  1,
 			},
@@ -706,7 +706,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 11,
 				Counter:  1,
 			},
@@ -715,7 +715,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 12,
 				Counter:  1,
 			},
@@ -724,7 +724,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 13,
 				Counter:  1,
 			},
@@ -733,7 +733,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 14,
 				Counter:  1,
 			},
@@ -742,7 +742,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{lang_swig},
+				Father:   []*anise_pkg.DefaultPackage{lang_swig},
 				Position: 15,
 				Counter:  1,
 			},
@@ -753,7 +753,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package: build_seed,
-				Father: []*luet_pkg.DefaultPackage{
+				Father: []*anise_pkg.DefaultPackage{
 					bzip2, virtual_pkgconfig, autoconf,
 					linux_headers, python_exec, zlib,
 					automake, libtool, ncurses,
@@ -766,7 +766,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["layer/gentoo-stage3"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  gentoo_stage3,
-				Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+				Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 				Position: 1,
 				Counter:  1,
 			},
@@ -775,7 +775,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{lang_swig},
+				Father:   []*anise_pkg.DefaultPackage{lang_swig},
 				Position: 2,
 				Counter:  1,
 			},
@@ -784,7 +784,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["layer/gentoo-portage"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  layer_gentoo_portage,
-				Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+				Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 				Position: 3,
 				Counter:  1,
 			},
@@ -793,7 +793,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["development/mocaccino-overlay-x"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  mos_overlay_x,
-				Father:   []*luet_pkg.DefaultPackage{build_seed},
+				Father:   []*anise_pkg.DefaultPackage{build_seed},
 				Position: 4,
 				Counter:  1,
 			},
@@ -802,7 +802,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 5,
 				Counter:  1,
 			},
@@ -811,7 +811,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 6,
 				Counter:  1,
 			},
@@ -820,7 +820,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 7,
 				Counter:  1,
 			},
@@ -829,7 +829,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/libcap-ng"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libcap_ng,
-				Father:   []*luet_pkg.DefaultPackage{audit},
+				Father:   []*anise_pkg.DefaultPackage{audit},
 				Position: 8,
 				Counter:  1,
 			},
@@ -838,7 +838,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{audit, readline},
+				Father:   []*anise_pkg.DefaultPackage{audit, readline},
 				Position: 9,
 				Counter:  2,
 			},
@@ -847,7 +847,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 10,
 				Counter:  1,
 			},
@@ -856,7 +856,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 11,
 				Counter:  1,
 			},
@@ -865,7 +865,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 12,
 				Counter:  1,
 			},
@@ -874,7 +874,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 13,
 				Counter:  1,
 			},
@@ -883,7 +883,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 14,
 				Counter:  1,
 			},
@@ -892,7 +892,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 15,
 				Counter:  1,
 			},
@@ -901,7 +901,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 16,
 				Counter:  1,
 			},
@@ -912,7 +912,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 0,
 				Counter:  1,
 			},
@@ -921,7 +921,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["layer/gentoo-portage"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  layer_gentoo_portage,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 1,
 				Counter:  1,
 			},
@@ -930,7 +930,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 2,
 				Counter:  1,
 			},
@@ -939,7 +939,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 3,
 				Counter:  1,
 			},
@@ -948,7 +948,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 4,
 				Counter:  1,
 			},
@@ -957,7 +957,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 5,
 				Counter:  1,
 			},
@@ -966,7 +966,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 6,
 				Counter:  1,
 			},
@@ -975,7 +975,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["development/mocaccino-overlay-x"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  mos_overlay_x,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 7,
 				Counter:  1,
 			},
@@ -984,7 +984,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  build_seed,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 8,
 				Counter:  1,
 			},
@@ -993,7 +993,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 9,
 				Counter:  1,
 			},
@@ -1002,7 +1002,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 10,
 				Counter:  1,
 			},
@@ -1011,7 +1011,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 11,
 				Counter:  1,
 			},
@@ -1020,7 +1020,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 12,
 				Counter:  1,
 			},
@@ -1029,7 +1029,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-process/audit"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  audit,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 13,
 				Counter:  1,
 			},
@@ -1038,7 +1038,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 14,
 				Counter:  1,
 			},
@@ -1047,7 +1047,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/libcap-ng"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libcap_ng,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 15,
 				Counter:  1,
 			},
@@ -1056,7 +1056,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["layer/gentoo-stage3"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  gentoo_stage3,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 16,
 				Counter:  1,
 			},
@@ -1065,7 +1065,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 17,
 				Counter:  1,
 			},
@@ -1090,26 +1090,26 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[9].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					gentoo_stage3,
 				},
 			))
 
 			Expect(levels.Levels[8].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					layer_gentoo_portage,
 				},
 			))
 
 			Expect(levels.Levels[7].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					layer_gentoo_portage,
 					mos_overlay_x,
 				},
 			))
 
 			Expect(levels.Levels[6].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					layer_gentoo_portage,
 					mos_overlay_x,
 					build_seed,
@@ -1117,7 +1117,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[5].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					layer_gentoo_portage,
 					mos_overlay_x,
 					build_seed,
@@ -1127,7 +1127,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					mos_overlay_x,
 					build_seed,
 					layer_gentoo_portage,
@@ -1140,7 +1140,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					layer_gentoo_portage,
 					build_seed,
 					ncurses,
@@ -1154,7 +1154,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					mos_overlay_x,
 					bzip2,
 					readline,
@@ -1174,7 +1174,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					build_seed,
 					libpcre,
 					layer_gentoo_portage,
@@ -1195,7 +1195,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					bzip2,
 					layer_gentoo_portage,
 					lang_swig,
@@ -1220,7 +1220,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-stage3": &Stage4Leaf{
 						Package:  gentoo_stage3,
-						Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+						Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1231,7 +1231,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 0,
 						Counter:  1,
 					},
@@ -1242,13 +1242,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 0,
 						Counter:  1,
 					},
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 1,
 						Counter:  1,
 					},
@@ -1258,19 +1258,19 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 0,
 						Counter:  1,
 					},
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 1,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{ncurses, virtual_pkgconfig},
+						Father:   []*anise_pkg.DefaultPackage{ncurses, virtual_pkgconfig},
 						Position: 2,
 						Counter:  2,
 					},
@@ -1281,31 +1281,31 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 0,
 						Counter:  1,
 					},
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 1,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{bzip2, zlib, ncurses, virtual_pkgconfig},
+						Father:   []*anise_pkg.DefaultPackage{bzip2, zlib, ncurses, virtual_pkgconfig},
 						Position: 2,
 						Counter:  4,
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 3,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 4,
 						Counter:  1,
 					},
@@ -1316,49 +1316,49 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 0,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{ncurses, virtual_pkgconfig, bzip2, zlib},
+						Father:   []*anise_pkg.DefaultPackage{ncurses, virtual_pkgconfig, bzip2, zlib},
 						Position: 1,
 						Counter:  4,
 					},
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 2,
 						Counter:  1,
 					},
 					"app-arch/bzip2": &Stage4Leaf{
 						Package:  bzip2,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 3,
 						Counter:  1,
 					},
 					"sys-libs/readline": &Stage4Leaf{
 						Package:  readline,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 4,
 						Counter:  1,
 					},
 					"sys-libs/zlib": &Stage4Leaf{
 						Package:  zlib,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 5,
 						Counter:  1,
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 6,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 7,
 						Counter:  1,
 					},
@@ -1369,13 +1369,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 0,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package: build_seed,
-						Father: []*luet_pkg.DefaultPackage{
+						Father: []*anise_pkg.DefaultPackage{
 							bzip2, zlib, ncurses, virtual_pkgconfig, python_exec,
 							autoconf, automake, libtool, linux_headers,
 						},
@@ -1384,43 +1384,43 @@ var _ = Describe("Converter", func() {
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 2,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 3,
 						Counter:  1,
 					},
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 4,
 						Counter:  1,
 					},
 					"dev-libs-3/libpcre": &Stage4Leaf{
 						Package:  libpcre,
-						Father:   []*luet_pkg.DefaultPackage{lang_swig},
+						Father:   []*anise_pkg.DefaultPackage{lang_swig},
 						Position: 5,
 						Counter:  1,
 					},
 					"app-arch/bzip2": &Stage4Leaf{
 						Package:  bzip2,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 6,
 						Counter:  1,
 					},
 					"sys-libs/readline": &Stage4Leaf{
 						Package:  readline,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 7,
 						Counter:  1,
 					},
 					"sys-libs/zlib": &Stage4Leaf{
 						Package:  zlib,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 8,
 						Counter:  1,
 					},
@@ -1430,7 +1430,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["development/mocaccino-overlay-x"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  mos_overlay_x,
-				Father:   []*luet_pkg.DefaultPackage{build_seed},
+				Father:   []*anise_pkg.DefaultPackage{build_seed},
 				Position: 0,
 				Counter:  1,
 			},
@@ -1439,7 +1439,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 1,
 				Counter:  1,
 			},
@@ -1448,7 +1448,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 2,
 				Counter:  1,
 			},
@@ -1457,7 +1457,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 3,
 				Counter:  1,
 			},
@@ -1466,7 +1466,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["layer/gentoo-portage"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  layer_gentoo_portage,
-				Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+				Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 				Position: 4,
 				Counter:  1,
 			},
@@ -1475,7 +1475,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package: build_seed,
-				Father: []*luet_pkg.DefaultPackage{
+				Father: []*anise_pkg.DefaultPackage{
 					bzip2, zlib, virtual_pkgconfig, ncurses, python_exec,
 					autoconf, automake, libtool, linux_headers,
 				},
@@ -1487,7 +1487,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 6,
 				Counter:  1,
 			},
@@ -1496,7 +1496,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 7,
 				Counter:  1,
 			},
@@ -1505,7 +1505,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 8,
 				Counter:  1,
 			},
@@ -1514,7 +1514,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 9,
 				Counter:  1,
 			},
@@ -1523,7 +1523,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 10,
 				Counter:  1,
 			},
@@ -1532,7 +1532,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 11,
 				Counter:  1,
 			},
@@ -1541,7 +1541,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 12,
 				Counter:  1,
 			},
@@ -1550,7 +1550,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 13,
 				Counter:  1,
 			},
@@ -1559,7 +1559,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{lang_swig},
+				Father:   []*anise_pkg.DefaultPackage{lang_swig},
 				Position: 14,
 				Counter:  1,
 			},
@@ -1570,7 +1570,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package: build_seed,
-				Father: []*luet_pkg.DefaultPackage{
+				Father: []*anise_pkg.DefaultPackage{
 					bzip2, virtual_pkgconfig, autoconf,
 					linux_headers, python_exec, zlib,
 					automake, libtool, ncurses,
@@ -1583,7 +1583,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{lang_swig},
+				Father:   []*anise_pkg.DefaultPackage{lang_swig},
 				Position: 1,
 				Counter:  1,
 			},
@@ -1592,7 +1592,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["layer/gentoo-portage"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  layer_gentoo_portage,
-				Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+				Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 				Position: 2,
 				Counter:  1,
 			},
@@ -1601,7 +1601,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["development/mocaccino-overlay-x"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  mos_overlay_x,
-				Father:   []*luet_pkg.DefaultPackage{build_seed},
+				Father:   []*anise_pkg.DefaultPackage{build_seed},
 				Position: 3,
 				Counter:  1,
 			},
@@ -1610,7 +1610,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 4,
 				Counter:  1,
 			},
@@ -1619,7 +1619,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 5,
 				Counter:  1,
 			},
@@ -1628,7 +1628,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 6,
 				Counter:  1,
 			},
@@ -1637,7 +1637,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/libcap-ng"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libcap_ng,
-				Father:   []*luet_pkg.DefaultPackage{audit},
+				Father:   []*anise_pkg.DefaultPackage{audit},
 				Position: 7,
 				Counter:  1,
 			},
@@ -1646,7 +1646,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{audit, readline},
+				Father:   []*anise_pkg.DefaultPackage{audit, readline},
 				Position: 8,
 				Counter:  2,
 			},
@@ -1655,7 +1655,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 9,
 				Counter:  1,
 			},
@@ -1664,7 +1664,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 10,
 				Counter:  1,
 			},
@@ -1673,7 +1673,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 11,
 				Counter:  1,
 			},
@@ -1682,7 +1682,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 12,
 				Counter:  1,
 			},
@@ -1691,7 +1691,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 13,
 				Counter:  1,
 			},
@@ -1700,7 +1700,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 14,
 				Counter:  1,
 			},
@@ -1709,7 +1709,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 15,
 				Counter:  1,
 			},
@@ -1720,7 +1720,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 0,
 				Counter:  1,
 			},
@@ -1729,7 +1729,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["layer/gentoo-portage"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  layer_gentoo_portage,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 1,
 				Counter:  1,
 			},
@@ -1738,7 +1738,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 2,
 				Counter:  1,
 			},
@@ -1747,7 +1747,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 3,
 				Counter:  1,
 			},
@@ -1756,7 +1756,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 4,
 				Counter:  1,
 			},
@@ -1765,7 +1765,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 5,
 				Counter:  1,
 			},
@@ -1774,7 +1774,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 6,
 				Counter:  1,
 			},
@@ -1783,7 +1783,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["development/mocaccino-overlay-x"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  mos_overlay_x,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 7,
 				Counter:  1,
 			},
@@ -1792,7 +1792,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  build_seed,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 8,
 				Counter:  1,
 			},
@@ -1801,7 +1801,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 9,
 				Counter:  1,
 			},
@@ -1810,7 +1810,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 10,
 				Counter:  1,
 			},
@@ -1819,7 +1819,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 11,
 				Counter:  1,
 			},
@@ -1828,7 +1828,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 12,
 				Counter:  1,
 			},
@@ -1837,7 +1837,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-process/audit"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  audit,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 13,
 				Counter:  1,
 			},
@@ -1846,7 +1846,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 14,
 				Counter:  1,
 			},
@@ -1855,7 +1855,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/libcap-ng"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libcap_ng,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 15,
 				Counter:  1,
 			},
@@ -1864,7 +1864,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 16,
 				Counter:  1,
 			},
@@ -1889,32 +1889,32 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[9].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					gentoo_stage3,
 				},
 			))
 
 			Expect(levels.Levels[8].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					layer_gentoo_portage,
 				},
 			))
 
 			Expect(levels.Levels[7].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					mos_overlay_x,
 				},
 			))
 
 			Expect(levels.Levels[6].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					mos_overlay_x,
 					build_seed,
 				},
 			))
 
 			Expect(levels.Levels[5].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					mos_overlay_x,
 					build_seed,
 					ncurses,
@@ -1923,7 +1923,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					mos_overlay_x,
 					build_seed,
 					bzip2,
@@ -1935,7 +1935,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					build_seed,
 					ncurses,
 					virtual_pkgconfig,
@@ -1948,7 +1948,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					mos_overlay_x,
 					bzip2,
 					readline,
@@ -1967,7 +1967,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					build_seed,
 					libpcre,
 					mos_overlay_x,
@@ -1987,7 +1987,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					bzip2,
 					lang_swig,
 					virtual_pkgconfig,
@@ -2011,7 +2011,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-stage3": &Stage4Leaf{
 						Package:  gentoo_stage3,
-						Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+						Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2022,7 +2022,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2033,7 +2033,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2043,13 +2043,13 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 0,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{ncurses, virtual_pkgconfig},
+						Father:   []*anise_pkg.DefaultPackage{ncurses, virtual_pkgconfig},
 						Position: 1,
 						Counter:  2,
 					},
@@ -2060,25 +2060,25 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 0,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{bzip2, zlib, ncurses, virtual_pkgconfig},
+						Father:   []*anise_pkg.DefaultPackage{bzip2, zlib, ncurses, virtual_pkgconfig},
 						Position: 1,
 						Counter:  4,
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 2,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 3,
 						Counter:  1,
 					},
@@ -2089,43 +2089,43 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 0,
 						Counter:  1,
 					},
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{ncurses, virtual_pkgconfig, bzip2, zlib},
+						Father:   []*anise_pkg.DefaultPackage{ncurses, virtual_pkgconfig, bzip2, zlib},
 						Position: 1,
 						Counter:  4,
 					},
 					"app-arch/bzip2": &Stage4Leaf{
 						Package:  bzip2,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 2,
 						Counter:  1,
 					},
 					"sys-libs/readline": &Stage4Leaf{
 						Package:  readline,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 3,
 						Counter:  1,
 					},
 					"sys-libs/zlib": &Stage4Leaf{
 						Package:  zlib,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 4,
 						Counter:  1,
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 5,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 6,
 						Counter:  1,
 					},
@@ -2136,7 +2136,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layers/build-seed": &Stage4Leaf{
 						Package: build_seed,
-						Father: []*luet_pkg.DefaultPackage{
+						Father: []*anise_pkg.DefaultPackage{
 							bzip2, zlib, ncurses, virtual_pkgconfig, python_exec,
 							autoconf, automake, libtool, linux_headers,
 						},
@@ -2145,43 +2145,43 @@ var _ = Describe("Converter", func() {
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 1,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 2,
 						Counter:  1,
 					},
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 3,
 						Counter:  1,
 					},
 					"dev-libs-3/libpcre": &Stage4Leaf{
 						Package:  libpcre,
-						Father:   []*luet_pkg.DefaultPackage{lang_swig},
+						Father:   []*anise_pkg.DefaultPackage{lang_swig},
 						Position: 4,
 						Counter:  1,
 					},
 					"app-arch/bzip2": &Stage4Leaf{
 						Package:  bzip2,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 5,
 						Counter:  1,
 					},
 					"sys-libs/readline": &Stage4Leaf{
 						Package:  readline,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 6,
 						Counter:  1,
 					},
 					"sys-libs/zlib": &Stage4Leaf{
 						Package:  zlib,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 7,
 						Counter:  1,
 					},
@@ -2191,7 +2191,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["development/mocaccino-overlay-x"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  mos_overlay_x,
-				Father:   []*luet_pkg.DefaultPackage{build_seed},
+				Father:   []*anise_pkg.DefaultPackage{build_seed},
 				Position: 0,
 				Counter:  1,
 			},
@@ -2200,7 +2200,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 1,
 				Counter:  1,
 			},
@@ -2209,7 +2209,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 2,
 				Counter:  1,
 			},
@@ -2218,7 +2218,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 3,
 				Counter:  1,
 			},
@@ -2227,7 +2227,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package: build_seed,
-				Father: []*luet_pkg.DefaultPackage{
+				Father: []*anise_pkg.DefaultPackage{
 					bzip2, zlib, virtual_pkgconfig, ncurses, python_exec,
 					autoconf, automake, libtool, linux_headers,
 				},
@@ -2239,7 +2239,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 5,
 				Counter:  1,
 			},
@@ -2248,7 +2248,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 6,
 				Counter:  1,
 			},
@@ -2257,7 +2257,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 7,
 				Counter:  1,
 			},
@@ -2266,7 +2266,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 8,
 				Counter:  1,
 			},
@@ -2275,7 +2275,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 9,
 				Counter:  1,
 			},
@@ -2284,7 +2284,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 10,
 				Counter:  1,
 			},
@@ -2293,7 +2293,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 11,
 				Counter:  1,
 			},
@@ -2302,7 +2302,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 12,
 				Counter:  1,
 			},
@@ -2311,7 +2311,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{lang_swig},
+				Father:   []*anise_pkg.DefaultPackage{lang_swig},
 				Position: 13,
 				Counter:  1,
 			},
@@ -2322,7 +2322,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package: build_seed,
-				Father: []*luet_pkg.DefaultPackage{
+				Father: []*anise_pkg.DefaultPackage{
 					bzip2, virtual_pkgconfig, autoconf,
 					linux_headers, python_exec, zlib,
 					automake, libtool, ncurses,
@@ -2335,7 +2335,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{lang_swig},
+				Father:   []*anise_pkg.DefaultPackage{lang_swig},
 				Position: 1,
 				Counter:  1,
 			},
@@ -2344,7 +2344,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["development/mocaccino-overlay-x"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  mos_overlay_x,
-				Father:   []*luet_pkg.DefaultPackage{build_seed},
+				Father:   []*anise_pkg.DefaultPackage{build_seed},
 				Position: 2,
 				Counter:  1,
 			},
@@ -2353,7 +2353,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 3,
 				Counter:  1,
 			},
@@ -2362,7 +2362,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 4,
 				Counter:  1,
 			},
@@ -2371,7 +2371,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 5,
 				Counter:  1,
 			},
@@ -2380,7 +2380,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/libcap-ng"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libcap_ng,
-				Father:   []*luet_pkg.DefaultPackage{audit},
+				Father:   []*anise_pkg.DefaultPackage{audit},
 				Position: 6,
 				Counter:  1,
 			},
@@ -2389,7 +2389,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{audit, readline},
+				Father:   []*anise_pkg.DefaultPackage{audit, readline},
 				Position: 7,
 				Counter:  2,
 			},
@@ -2398,7 +2398,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 8,
 				Counter:  1,
 			},
@@ -2407,7 +2407,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 9,
 				Counter:  1,
 			},
@@ -2416,7 +2416,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 10,
 				Counter:  1,
 			},
@@ -2425,7 +2425,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 11,
 				Counter:  1,
 			},
@@ -2434,7 +2434,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 12,
 				Counter:  1,
 			},
@@ -2443,7 +2443,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 13,
 				Counter:  1,
 			},
@@ -2452,7 +2452,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 14,
 				Counter:  1,
 			},
@@ -2463,7 +2463,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 0,
 				Counter:  1,
 			},
@@ -2472,7 +2472,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 1,
 				Counter:  1,
 			},
@@ -2481,7 +2481,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 2,
 				Counter:  1,
 			},
@@ -2490,7 +2490,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 3,
 				Counter:  1,
 			},
@@ -2499,7 +2499,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 4,
 				Counter:  1,
 			},
@@ -2508,7 +2508,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 5,
 				Counter:  1,
 			},
@@ -2517,7 +2517,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["development/mocaccino-overlay-x"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  mos_overlay_x,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 6,
 				Counter:  1,
 			},
@@ -2526,7 +2526,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  build_seed,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 7,
 				Counter:  1,
 			},
@@ -2535,7 +2535,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 8,
 				Counter:  1,
 			},
@@ -2544,7 +2544,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 9,
 				Counter:  1,
 			},
@@ -2553,7 +2553,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 10,
 				Counter:  1,
 			},
@@ -2562,7 +2562,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 11,
 				Counter:  1,
 			},
@@ -2571,7 +2571,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-process/audit"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  audit,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 12,
 				Counter:  1,
 			},
@@ -2580,7 +2580,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 13,
 				Counter:  1,
 			},
@@ -2589,7 +2589,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/libcap-ng"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libcap_ng,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 14,
 				Counter:  1,
 			},
@@ -2598,7 +2598,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 15,
 				Counter:  1,
 			},
@@ -2623,31 +2623,31 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[9].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					gentoo_stage3,
 				},
 			))
 
 			Expect(levels.Levels[8].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					layer_gentoo_portage,
 				},
 			))
 
 			Expect(levels.Levels[7].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					mos_overlay_x,
 				},
 			))
 
 			Expect(levels.Levels[6].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					build_seed,
 				},
 			))
 
 			Expect(levels.Levels[5].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					build_seed,
 					ncurses,
 					virtual_pkgconfig,
@@ -2655,7 +2655,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					build_seed,
 					bzip2,
 					readline,
@@ -2666,7 +2666,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					build_seed,
 					ncurses,
 					virtual_pkgconfig,
@@ -2678,7 +2678,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					bzip2,
 					readline,
 					zlib,
@@ -2696,7 +2696,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					build_seed,
 					libpcre,
 					bzip2,
@@ -2715,7 +2715,7 @@ var _ = Describe("Converter", func() {
 			))
 
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					bzip2,
 					lang_swig,
 					virtual_pkgconfig,
@@ -2738,7 +2738,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-stage3": &Stage4Leaf{
 						Package:  gentoo_stage3,
-						Father:   []*luet_pkg.DefaultPackage{layer_gentoo_portage},
+						Father:   []*anise_pkg.DefaultPackage{layer_gentoo_portage},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2749,7 +2749,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layer/gentoo-portage": &Stage4Leaf{
 						Package:  layer_gentoo_portage,
-						Father:   []*luet_pkg.DefaultPackage{mos_overlay_x},
+						Father:   []*anise_pkg.DefaultPackage{mos_overlay_x},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2760,7 +2760,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"development/mocaccino-overlay-x": &Stage4Leaf{
 						Package:  mos_overlay_x,
-						Father:   []*luet_pkg.DefaultPackage{build_seed},
+						Father:   []*anise_pkg.DefaultPackage{build_seed},
 						Position: 0,
 						Counter:  1,
 					},
@@ -2770,7 +2770,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{ncurses, virtual_pkgconfig},
+						Father:   []*anise_pkg.DefaultPackage{ncurses, virtual_pkgconfig},
 						Position: 0,
 						Counter:  2,
 					},
@@ -2781,19 +2781,19 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{bzip2, zlib, ncurses, virtual_pkgconfig},
+						Father:   []*anise_pkg.DefaultPackage{bzip2, zlib, ncurses, virtual_pkgconfig},
 						Position: 0,
 						Counter:  4,
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 1,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 2,
 						Counter:  1,
 					},
@@ -2804,37 +2804,37 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layers/build-seed": &Stage4Leaf{
 						Package:  build_seed,
-						Father:   []*luet_pkg.DefaultPackage{ncurses, virtual_pkgconfig, bzip2, zlib},
+						Father:   []*anise_pkg.DefaultPackage{ncurses, virtual_pkgconfig, bzip2, zlib},
 						Position: 0,
 						Counter:  4,
 					},
 					"app-arch/bzip2": &Stage4Leaf{
 						Package:  bzip2,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 1,
 						Counter:  1,
 					},
 					"sys-libs/readline": &Stage4Leaf{
 						Package:  readline,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 2,
 						Counter:  1,
 					},
 					"sys-libs/zlib": &Stage4Leaf{
 						Package:  zlib,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 3,
 						Counter:  1,
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 4,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 5,
 						Counter:  1,
 					},
@@ -2845,7 +2845,7 @@ var _ = Describe("Converter", func() {
 				map[string]*Stage4Leaf{
 					"layers/build-seed": &Stage4Leaf{
 						Package: build_seed,
-						Father: []*luet_pkg.DefaultPackage{
+						Father: []*anise_pkg.DefaultPackage{
 							bzip2, zlib, ncurses, virtual_pkgconfig, python_exec,
 							autoconf, automake, libtool, linux_headers,
 						},
@@ -2854,37 +2854,37 @@ var _ = Describe("Converter", func() {
 					},
 					"sys-libs/ncurses": &Stage4Leaf{
 						Package:  ncurses,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 1,
 						Counter:  1,
 					},
 					"virtual/pkgconfig": &Stage4Leaf{
 						Package:  virtual_pkgconfig,
-						Father:   []*luet_pkg.DefaultPackage{readline},
+						Father:   []*anise_pkg.DefaultPackage{readline},
 						Position: 2,
 						Counter:  1,
 					},
 					"dev-libs-3/libpcre": &Stage4Leaf{
 						Package:  libpcre,
-						Father:   []*luet_pkg.DefaultPackage{lang_swig},
+						Father:   []*anise_pkg.DefaultPackage{lang_swig},
 						Position: 3,
 						Counter:  1,
 					},
 					"app-arch/bzip2": &Stage4Leaf{
 						Package:  bzip2,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 4,
 						Counter:  1,
 					},
 					"sys-libs/readline": &Stage4Leaf{
 						Package:  readline,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 5,
 						Counter:  1,
 					},
 					"sys-libs/zlib": &Stage4Leaf{
 						Package:  zlib,
-						Father:   []*luet_pkg.DefaultPackage{libpcre},
+						Father:   []*anise_pkg.DefaultPackage{libpcre},
 						Position: 6,
 						Counter:  1,
 					},
@@ -2894,7 +2894,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 0,
 				Counter:  1,
 			},
@@ -2903,7 +2903,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 1,
 				Counter:  1,
 			},
@@ -2912,7 +2912,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 2,
 				Counter:  1,
 			},
@@ -2921,7 +2921,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package: build_seed,
-				Father: []*luet_pkg.DefaultPackage{
+				Father: []*anise_pkg.DefaultPackage{
 					bzip2, zlib, virtual_pkgconfig, ncurses, python_exec,
 					autoconf, automake, libtool, linux_headers,
 				},
@@ -2933,7 +2933,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 4,
 				Counter:  1,
 			},
@@ -2942,7 +2942,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 5,
 				Counter:  1,
 			},
@@ -2951,7 +2951,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 6,
 				Counter:  1,
 			},
@@ -2960,7 +2960,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 7,
 				Counter:  1,
 			},
@@ -2969,7 +2969,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 8,
 				Counter:  1,
 			},
@@ -2978,7 +2978,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 9,
 				Counter:  1,
 			},
@@ -2987,7 +2987,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 10,
 				Counter:  1,
 			},
@@ -2996,7 +2996,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 11,
 				Counter:  1,
 			},
@@ -3005,7 +3005,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[2].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{lang_swig},
+				Father:   []*anise_pkg.DefaultPackage{lang_swig},
 				Position: 12,
 				Counter:  1,
 			},
@@ -3016,7 +3016,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package: build_seed,
-				Father: []*luet_pkg.DefaultPackage{
+				Father: []*anise_pkg.DefaultPackage{
 					bzip2, virtual_pkgconfig, autoconf,
 					linux_headers, python_exec, zlib,
 					automake, libtool, ncurses,
@@ -3029,7 +3029,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{lang_swig},
+				Father:   []*anise_pkg.DefaultPackage{lang_swig},
 				Position: 1,
 				Counter:  1,
 			},
@@ -3038,7 +3038,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 2,
 				Counter:  1,
 			},
@@ -3047,7 +3047,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 3,
 				Counter:  1,
 			},
@@ -3056,7 +3056,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{libpcre},
+				Father:   []*anise_pkg.DefaultPackage{libpcre},
 				Position: 4,
 				Counter:  1,
 			},
@@ -3065,7 +3065,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/libcap-ng"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libcap_ng,
-				Father:   []*luet_pkg.DefaultPackage{audit},
+				Father:   []*anise_pkg.DefaultPackage{audit},
 				Position: 5,
 				Counter:  1,
 			},
@@ -3074,7 +3074,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{audit, readline},
+				Father:   []*anise_pkg.DefaultPackage{audit, readline},
 				Position: 6,
 				Counter:  2,
 			},
@@ -3083,7 +3083,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{readline},
+				Father:   []*anise_pkg.DefaultPackage{readline},
 				Position: 7,
 				Counter:  1,
 			},
@@ -3092,7 +3092,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 8,
 				Counter:  1,
 			},
@@ -3101,7 +3101,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 9,
 				Counter:  1,
 			},
@@ -3110,7 +3110,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 10,
 				Counter:  1,
 			},
@@ -3119,7 +3119,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 11,
 				Counter:  1,
 			},
@@ -3128,7 +3128,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 12,
 				Counter:  1,
 			},
@@ -3137,7 +3137,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[1].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{libcap_ng},
+				Father:   []*anise_pkg.DefaultPackage{libcap_ng},
 				Position: 13,
 				Counter:  1,
 			},
@@ -3148,7 +3148,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["app-arch/bzip2"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  bzip2,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 0,
 				Counter:  1,
 			},
@@ -3157,7 +3157,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-lang/swig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  lang_swig,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 1,
 				Counter:  1,
 			},
@@ -3166,7 +3166,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["virtual/pkgconfig"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  virtual_pkgconfig,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 2,
 				Counter:  1,
 			},
@@ -3175,7 +3175,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-2.69/autoconf"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  autoconf,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 3,
 				Counter:  1,
 			},
@@ -3184,7 +3184,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-kernel/linux-headers"]
 			Expect(v).Should(Equal(&Stage4Leaf{ ///
 				Package:  linux_headers,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 4,
 				Counter:  1,
 			},
@@ -3193,7 +3193,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-lang-2/python-exec"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  python_exec,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 5,
 				Counter:  1,
 			},
@@ -3202,7 +3202,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["layers/build-seed"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  build_seed,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 6,
 				Counter:  1,
 			},
@@ -3211,7 +3211,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/zlib"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  zlib,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 7,
 				Counter:  1,
 			},
@@ -3220,7 +3220,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["dev-libs-3/libpcre"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libpcre,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 8,
 				Counter:  1,
 			},
@@ -3229,7 +3229,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-1.16/automake"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  automake,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 9,
 				Counter:  1,
 			},
@@ -3238,7 +3238,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-devel-2/libtool"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libtool,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 10,
 				Counter:  1,
 			},
@@ -3247,7 +3247,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-process/audit"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  audit,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 11,
 				Counter:  1,
 			},
@@ -3256,7 +3256,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/readline"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  readline,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 12,
 				Counter:  1,
 			},
@@ -3265,7 +3265,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/libcap-ng"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  libcap_ng,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 13,
 				Counter:  1,
 			},
@@ -3274,7 +3274,7 @@ var _ = Describe("Converter", func() {
 			v, _ = levels.Levels[0].Map["sys-libs/ncurses"]
 			Expect(v).Should(Equal(&Stage4Leaf{
 				Package:  ncurses,
-				Father:   []*luet_pkg.DefaultPackage{},
+				Father:   []*anise_pkg.DefaultPackage{},
 				Position: 14,
 				Counter:  1,
 			},
@@ -3287,109 +3287,109 @@ var _ = Describe("Converter", func() {
 
 			// Check Deps
 			Expect(levels.Levels[17].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					gentoo_stage3,
 				},
 			))
 
 			Expect(levels.Levels[16].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					layer_gentoo_portage,
 				},
 			))
 
 			Expect(levels.Levels[15].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					mos_overlay_x,
 				},
 			))
 
 			Expect(levels.Levels[14].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					build_seed,
 				},
 			))
 
 			Expect(levels.Levels[13].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					ncurses,
 				},
 			))
 
 			Expect(levels.Levels[12].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					virtual_pkgconfig,
 				},
 			))
 
 			Expect(levels.Levels[11].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					bzip2,
 				},
 			))
 
 			Expect(levels.Levels[10].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					zlib,
 				},
 			))
 
 			Expect(levels.Levels[9].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					python_exec,
 				},
 			))
 
 			Expect(levels.Levels[8].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					autoconf,
 				},
 			))
 
 			Expect(levels.Levels[7].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					automake,
 				},
 			))
 
 			Expect(levels.Levels[6].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					readline,
 				},
 			))
 
 			Expect(levels.Levels[5].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					libpcre,
 				},
 			))
 
 			Expect(levels.Levels[4].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					libtool,
 				},
 			))
 
 			Expect(levels.Levels[3].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					linux_headers,
 				},
 			))
 
 			Expect(levels.Levels[2].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					lang_swig,
 				},
 			))
 
 			Expect(levels.Levels[1].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					libcap_ng,
 				},
 			))
 
 			Expect(levels.Levels[0].Deps).Should(Equal(
-				[]*luet_pkg.DefaultPackage{
+				[]*anise_pkg.DefaultPackage{
 					audit,
 				},
 			))

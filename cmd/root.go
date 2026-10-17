@@ -12,13 +12,13 @@ import (
 
 	"github.com/macaroni-os/anise-portage-converter/pkg/converter"
 
-	. "github.com/geaaru/luet/pkg/config"
-	. "github.com/geaaru/luet/pkg/logger"
+	. "github.com/macaroni-os/anise/pkg/config"
+	. "github.com/macaroni-os/anise/pkg/logger"
 	"github.com/spf13/cobra"
 )
 
 const (
-	cliName = `Copyright (c) 2020-2025 - Daniele Rondina
+	cliName = `Copyright (c) 2020-2026 - Daniele Rondina
 
 Portage/Overlay bridge for Macaroni OS Sambuca stack.`
 
@@ -26,15 +26,15 @@ Portage/Overlay bridge for Macaroni OS Sambuca stack.`
 )
 
 func initConfig() error {
-	LuetCfg.Viper.SetEnvPrefix("LUET")
-	LuetCfg.Viper.AutomaticEnv() // read in environment variables that match
+	AniseCfg.Viper.SetEnvPrefix("ANISE")
+	AniseCfg.Viper.AutomaticEnv() // read in environment variables that match
 
 	// Create EnvKey Replacer for handle complex structure
 	replacer := strings.NewReplacer(".", "__")
-	LuetCfg.Viper.SetEnvKeyReplacer(replacer)
-	LuetCfg.Viper.SetTypeByDefaultValue(true)
+	AniseCfg.Viper.SetEnvKeyReplacer(replacer)
+	AniseCfg.Viper.SetTypeByDefaultValue(true)
 
-	err := LuetCfg.Viper.Unmarshal(&LuetCfg)
+	err := AniseCfg.Viper.Unmarshal(&AniseCfg)
 	if err != nil {
 		return err
 	}

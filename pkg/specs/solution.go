@@ -10,8 +10,8 @@ import (
 	"sort"
 	"strings"
 
-	luet_pkg "github.com/geaaru/luet/pkg/package"
 	gentoo "github.com/geaaru/pkgs-checker/pkg/gentoo"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
 )
 
 func (s *PortageSolution) SetLabel(k, v string) {
@@ -20,7 +20,7 @@ func (s *PortageSolution) SetLabel(k, v string) {
 	}
 }
 
-func (s *PortageSolution) ToPack(runtime bool) *luet_pkg.DefaultPackage {
+func (s *PortageSolution) ToPack(runtime bool) *anise_pkg.DefaultPackage {
 
 	version := s.Package.Version
 
@@ -68,7 +68,7 @@ func (s *PortageSolution) ToPack(runtime bool) *luet_pkg.DefaultPackage {
 		useFlags = nil
 	}
 
-	ans := &luet_pkg.DefaultPackage{
+	ans := &anise_pkg.DefaultPackage{
 		Name:        s.Package.Name,
 		Category:    SanitizeCategory(s.Package.Category, s.Package.Slot),
 		Version:     version,
@@ -87,7 +87,7 @@ func (s *PortageSolution) ToPack(runtime bool) *luet_pkg.DefaultPackage {
 
 	for _, req := range deps {
 
-		dep := &luet_pkg.DefaultPackage{
+		dep := &anise_pkg.DefaultPackage{
 			Name:     req.Name,
 			Category: SanitizeCategory(req.Category, req.Slot),
 			UseFlags: req.UseFlags,
@@ -112,7 +112,7 @@ func (s *PortageSolution) ToPack(runtime bool) *luet_pkg.DefaultPackage {
 
 		for _, req := range s.RuntimeConflicts {
 
-			dep := &luet_pkg.DefaultPackage{
+			dep := &anise_pkg.DefaultPackage{
 				Name:     req.Name,
 				Category: SanitizeCategory(req.Category, req.Slot),
 				UseFlags: req.UseFlags,
@@ -132,7 +132,7 @@ func (s *PortageSolution) ToPack(runtime bool) *luet_pkg.DefaultPackage {
 
 		for _, req := range s.BuildConflicts {
 
-			dep := &luet_pkg.DefaultPackage{
+			dep := &anise_pkg.DefaultPackage{
 				Name:     req.Name,
 				Category: SanitizeCategory(req.Category, req.Slot),
 				UseFlags: req.UseFlags,

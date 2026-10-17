@@ -9,14 +9,14 @@ import (
 	"errors"
 	"io/ioutil"
 
-	compilerspec "github.com/geaaru/luet/pkg/compiler/types/spec"
-	pkg "github.com/geaaru/luet/pkg/package"
-	st "github.com/geaaru/luet/pkg/spectooling"
+	pkg "github.com/macaroni-os/anise/pkg/package"
+	st "github.com/macaroni-os/anise/pkg/spectooling"
+	compilerspec "github.com/macaroni-os/anise/pkg/v2/compiler/types/specs"
 
 	"gopkg.in/yaml.v2"
 )
 
-type LuetCompilationSpecSanitized struct {
+type AniseCompilationSpecSanitized struct {
 	Steps      []string `json:"steps,omitempty" yaml:"steps,omitempty"`
 	Env        []string `json:"env,omitempty" yaml:"env,omitempty"`
 	Prelude    []string `json:"prelude,omitempty" yaml:"prelude,omitempty"` // Are run inside the image which will be our builder
@@ -35,8 +35,8 @@ type LuetCompilationSpecSanitized struct {
 	Provides         []*st.DefaultPackageSanitized `json:"provides,omitempty" yaml:"provides,omitempty"`
 }
 
-func NewLuetCompilationSpecSanitized(s *compilerspec.LuetCompilationSpec) *LuetCompilationSpecSanitized {
-	return &LuetCompilationSpecSanitized{
+func NewAniseCompilationSpecSanitized(s *compilerspec.CompilationSpec) *AniseCompilationSpecSanitized {
+	return &AniseCompilationSpecSanitized{
 		Steps:      s.Steps,
 		Env:        s.Env,
 		Prelude:    s.Prelude,
@@ -50,15 +50,15 @@ func NewLuetCompilationSpecSanitized(s *compilerspec.LuetCompilationSpec) *LuetC
 	}
 }
 
-func NewLuetCompilationSpecSanitizedFromYaml(data []byte) (*LuetCompilationSpecSanitized, error) {
-	ans := &LuetCompilationSpecSanitized{}
+func NewAniseCompilationSpecSanitizedFromYaml(data []byte) (*AniseCompilationSpecSanitized, error) {
+	ans := &AniseCompilationSpecSanitized{}
 	if err := yaml.Unmarshal(data, ans); err != nil {
 		return nil, err
 	}
 	return ans, nil
 }
 
-func NewLuetCompilationSpecSanitizedFromFile(file string) (*LuetCompilationSpecSanitized, error) {
+func NewAniseCompilationSpecSanitizedFromFile(file string) (*AniseCompilationSpecSanitized, error) {
 	if file == "" {
 		return nil, errors.New("Invalid file path")
 	}
@@ -68,7 +68,7 @@ func NewLuetCompilationSpecSanitizedFromFile(file string) (*LuetCompilationSpecS
 		return nil, err
 	}
 
-	ans, err := NewLuetCompilationSpecSanitizedFromYaml(content)
+	ans, err := NewAniseCompilationSpecSanitizedFromYaml(content)
 	if err != nil {
 		return nil, err
 	}
@@ -76,19 +76,19 @@ func NewLuetCompilationSpecSanitizedFromFile(file string) (*LuetCompilationSpecS
 	return ans, nil
 }
 
-func (s *LuetCompilationSpecSanitized) GetRequires() []*st.DefaultPackageSanitized {
+func (s *AniseCompilationSpecSanitized) GetRequires() []*st.DefaultPackageSanitized {
 	return s.PackageRequires
 }
 
-func (s *LuetCompilationSpecSanitized) GetConflicts() []*st.DefaultPackageSanitized {
+func (s *AniseCompilationSpecSanitized) GetConflicts() []*st.DefaultPackageSanitized {
 	return s.PackageConflicts
 }
 
-func (s *LuetCompilationSpecSanitized) Yaml() ([]byte, error) {
+func (s *AniseCompilationSpecSanitized) Yaml() ([]byte, error) {
 	return yaml.Marshal(s)
 }
 
-func (s *LuetCompilationSpecSanitized) WriteBuildDefinition(path string) error {
+func (s *AniseCompilationSpecSanitized) WriteBuildDefinition(path string) error {
 	data, err := s.Yaml()
 	if err != nil {
 		return err
@@ -96,35 +96,35 @@ func (s *LuetCompilationSpecSanitized) WriteBuildDefinition(path string) error {
 	return ioutil.WriteFile(path, data, 0644)
 }
 
-func (s *LuetCompilationSpecSanitized) Clone() (*LuetCompilationSpecSanitized, error) {
+func (s *AniseCompilationSpecSanitized) Clone() (*AniseCompilationSpecSanitized, error) {
 	data, err := s.Yaml()
 	if err != nil {
 		return nil, err
 	}
 
-	return NewLuetCompilationSpecSanitizedFromYaml(data)
+	return NewAniseCompilationSpecSanitizedFromYaml(data)
 }
 
-func (s *LuetCompilationSpecSanitized) AddRequires(pkgs []*pkg.DefaultPackage) {
+func (s *AniseCompilationSpecSanitized) AddRequires(pkgs []*pkg.DefaultPackage) {
 	for _, pkg := range pkgs {
 		p := st.NewDefaultPackageSanitized(pkg)
 		s.PackageRequires = append(s.PackageRequires, p)
 	}
 }
 
-func (s *LuetCompilationSpecSanitized) Requires(pkgs []*pkg.DefaultPackage) {
+func (s *AniseCompilationSpecSanitized) Requires(pkgs []*pkg.DefaultPackage) {
 	s.PackageRequires = []*st.DefaultPackageSanitized{}
 	s.AddRequires(pkgs)
 }
 
-func (s *LuetCompilationSpecSanitized) AddConflicts(pkgs []*pkg.DefaultPackage) {
+func (s *AniseCompilationSpecSanitized) AddConflicts(pkgs []*pkg.DefaultPackage) {
 	for _, pkg := range pkgs {
 		p := st.NewDefaultPackageSanitized(pkg)
 		s.PackageConflicts = append(s.PackageConflicts, p)
 	}
 }
 
-func (s *LuetCompilationSpecSanitized) Conflicts(pkgs []*pkg.DefaultPackage) {
+func (s *AniseCompilationSpecSanitized) Conflicts(pkgs []*pkg.DefaultPackage) {
 	s.PackageConflicts = []*st.DefaultPackageSanitized{}
 	s.AddConflicts(pkgs)
 }

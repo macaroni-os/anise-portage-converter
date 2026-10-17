@@ -9,9 +9,10 @@ import (
 	"os"
 
 	"github.com/macaroni-os/anise-portage-converter/pkg/converter"
+	"github.com/macaroni-os/anise/pkg/v2/render"
 
-	. "github.com/geaaru/luet/pkg/config"
-	. "github.com/geaaru/luet/pkg/logger"
+	. "github.com/macaroni-os/anise/pkg/config"
+	. "github.com/macaroni-os/anise/pkg/logger"
 
 	"github.com/spf13/cobra"
 )
@@ -31,6 +32,8 @@ func newGenerateCommand() *cobra.Command {
 			treePath, _ := cmd.Flags().GetStringArray("tree")
 			reposcanSources, _ := cmd.Flags().GetStringArray("reposcan-files")
 			disableUseFlags, _ := cmd.Flags().GetStringArray("disable-use-flag")
+			templatesDir, _ := cmd.Flags().GetStringArray("templates-dir")
+			values, _ := cmd.Flags().GetStringArray("values")
 			to, _ := cmd.Flags().GetString("to")
 			rulesFile, _ := cmd.Flags().GetString("rules")
 			override, _ := cmd.Flags().GetBool("override")
@@ -65,8 +68,22 @@ func newGenerateCommand() *cobra.Command {
 			converter.CheckUpdate4Deps = checkUpdate4Deps
 			converter.SkipRDepsGeneration = skipRdepsGen
 
+			rEngine := render.NewRenderEngine(AniseCfg)
+			err := rEngine.LoadTemplates(templatesDir)
+			if err != nil {
+				Fatal(fmt.Errorf(
+					"error on load templates: %s", err.Error()))
+			}
+
+			err = rEngine.LoadDefaultValues(values)
+			if err != nil {
+				Fatal(fmt.Errorf(
+					"error on load default values: %s", err.Error()))
+			}
+			converter.RenderEngine = rEngine
+
 			if debug {
-				LuetCfg.GetGeneral().Debug = debug
+				AniseCfg.GetGeneral().Debug = debug
 			}
 
 			if len(pkgs) > 0 {
@@ -77,7 +94,7 @@ func newGenerateCommand() *cobra.Command {
 				DebugC(GetAurora().Bold("ATTENTION! No trees defined."))
 			}
 
-			err := converter.LoadRules(rulesFile)
+			err = converter.LoadRules(rulesFile)
 			if err != nil {
 				fmt.Println(err)
 				os.Exit(1)
@@ -135,5 +152,7 @@ func newGenerateCommand() *cobra.Command {
 	cmd.Flags().StringArray("reposcan-files", []string{}, "Append additional reposcan files. Only for reposcan backend.")
 	cmd.Flags().StringArray("disable-use-flag", []string{}, "Append additional use flags to disable.")
 	cmd.Flags().Bool("ignore-missing-deps", false, "Ignore missing deps on resolver.")
+	cmd.Flags().StringArray("templates-dir", []string{}, "Set templates directories.")
+	cmd.Flags().StringArray("values", []string{}, "Set render values.")
 	return cmd
 }
