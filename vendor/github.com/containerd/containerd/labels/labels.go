@@ -16,6 +16,26 @@
 
 package labels
 
+// ReservedPrefix is the prefix of the label namespace reserved for labels
+// defined and consumed by containerd itself. Labels in this namespace must
+// not be copied from untrusted sources such as image config labels. Use
+// IsReserved to check for such labels.
+const ReservedPrefix = "containerd.io/"
+
+// CRIContainerdPrefix is the prefix of the label namespace reserved for
+// labels defined and consumed by containerd's CRI plugin. Labels in this
+// namespace must not be copied from untrusted sources such as image config
+// labels. Use IsReserved to check for such labels.
+const CRIContainerdPrefix = "io.cri-containerd"
+
 // LabelUncompressed is added to compressed layer contents.
 // The value is digest of the uncompressed content.
 const LabelUncompressed = "containerd.io/uncompressed"
+
+// LabelSharedNamespace is added to a namespace to allow that namespaces
+// contents to be shared.
+const LabelSharedNamespace = "containerd.io/namespace.shareable"
+
+// LabelDistributionSource is added to content to indicate its origin.
+// e.g., "containerd.io/distribution.source.docker.io=library/redis"
+const LabelDistributionSource = "containerd.io/distribution.source"
