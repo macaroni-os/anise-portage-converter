@@ -172,7 +172,8 @@ func (pc *PortageConverter) LoadTrees(treePath []string) error {
 func (pc *PortageConverter) loadTree(t string) error {
 	if utils.Exists(t) {
 		InfoC(fmt.Sprintf(":evergreen_tree: Loading tree %s...", t))
-		err := pc.ForestGuard.LoadTrees([]string{t})
+		forceInMemoryGeneration := true
+		err := pc.ForestGuard.LoadTrees([]string{t}, forceInMemoryGeneration)
 		if err != nil {
 			return errors.New("Error on load tree" + err.Error())
 		}
