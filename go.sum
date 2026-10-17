@@ -187,6 +187,8 @@ github.com/macaroni-os/anise v0.44.0 h1:GExKVjfaiupNdytK2f2/NRGbuRddjCjGeLeFNPiZ
 github.com/macaroni-os/anise v0.44.0/go.mod h1:CbMwAfBBJtkrliRIJ67HxLUdDObVXKB6m1/SxIniOwY=
 github.com/macaroni-os/anise v0.44.1-0.20261017173424-3c5006381d76 h1:+BDktuyIujX8Ya87JFrLahIQ6XacodU3c5uWzmtNamw=
 github.com/macaroni-os/anise v0.44.1-0.20261017173424-3c5006381d76/go.mod h1:CbMwAfBBJtkrliRIJ67HxLUdDObVXKB6m1/SxIniOwY=
+github.com/macaroni-os/anise v0.44.1-0.20261017204518-4f1c9d5176b4 h1:WId7e7/0l0nERjRYz+bpuLWBUur52zJMvGJT9PluO8E=
+github.com/macaroni-os/anise v0.44.1-0.20261017204518-4f1c9d5176b4/go.mod h1:CbMwAfBBJtkrliRIJ67HxLUdDObVXKB6m1/SxIniOwY=
 github.com/mattn/go-colorable v0.1.2/go.mod h1:U0ppj6V5qS13XJ6of8GYAs25YV2eR4EVcfRqFIhoBtE=
 github.com/mattn/go-colorable v0.1.13 h1:fFA4WZxdEF4tXPZVKMLwD8oUnCTTo08duU7wxecdEvA=
 github.com/mattn/go-colorable v0.1.13/go.mod h1:7S9/ev0klgBDR4GtXTXX8a3vIGJpMovkB8vQcUbaXHg=

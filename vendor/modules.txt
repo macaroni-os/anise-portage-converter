@@ -324,7 +324,7 @@ github.com/kyokomi/emoji
 # github.com/logrusorgru/aurora v2.0.3+incompatible
 ## explicit
 github.com/logrusorgru/aurora
-# github.com/macaroni-os/anise v0.44.1-0.20261017173424-3c5006381d76
+# github.com/macaroni-os/anise v0.44.1-0.20261017204518-4f1c9d5176b4
 ## explicit; go 1.26.0
 github.com/macaroni-os/anise/anise-build/pkg/v2/backend
 github.com/macaroni-os/anise/anise-build/pkg/v2/solver

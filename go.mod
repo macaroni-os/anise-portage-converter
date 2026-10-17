@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/geaaru/pkgs-checker v0.14.4
-	github.com/macaroni-os/anise v0.44.1-0.20261017173424-3c5006381d76
+	github.com/macaroni-os/anise v0.44.1-0.20261017204518-4f1c9d5176b4
 	github.com/onsi/ginkgo/v2 v2.33.0
 	github.com/onsi/gomega v1.44.0
 	github.com/pkg/errors v0.9.1
