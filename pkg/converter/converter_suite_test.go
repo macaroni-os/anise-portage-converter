@@ -15,20 +15,20 @@ import (
 )
 
 func initConfig() error {
-	LuetCfg.Viper.SetEnvPrefix("LUET")
-	LuetCfg.Viper.AutomaticEnv() // read in environment variables that match
+	AniseCfg.Viper.SetEnvPrefix("LUET")
+	AniseCfg.Viper.AutomaticEnv() // read in environment variables that match
 
 	// Create EnvKey Replacer for handle complex structure
 	replacer := strings.NewReplacer(".", "__")
-	LuetCfg.Viper.SetEnvKeyReplacer(replacer)
-	LuetCfg.Viper.SetTypeByDefaultValue(true)
+	AniseCfg.Viper.SetEnvKeyReplacer(replacer)
+	AniseCfg.Viper.SetTypeByDefaultValue(true)
 
-	err := LuetCfg.Viper.Unmarshal(&LuetCfg)
+	err := AniseCfg.Viper.Unmarshal(&AniseCfg)
 	if err != nil {
 		return err
 	}
 
-	LuetCfg.GetGeneral().Debug = true
+	AniseCfg.GetGeneral().Debug = true
 
 	InitAurora()
 	NewSpinner()
