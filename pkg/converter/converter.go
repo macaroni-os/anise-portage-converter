@@ -368,10 +368,10 @@ func (pc *PortageConverter) createSolution(pkg, treePath string, stack []string,
 	if p != nil {
 
 		var originPackage anise_pkg.Package
-		for _, luetPkgTree := range p {
+		for _, anisePkgTree := range p {
 
 			gpTree, err := gentoo.ParsePackageStr(fmt.Sprintf("%s/%s-%s",
-				gp.Category, gp.Name, luetPkgTree.GetVersion()))
+				gp.Category, gp.Name, anisePkgTree.GetVersion()))
 			if err != nil {
 				Error(fmt.Sprintf("[%s] Error parse existing pkg in tree: %s", pkg, err.Error()))
 				return err
@@ -381,12 +381,12 @@ func (pc *PortageConverter) createSolution(pkg, treePath string, stack []string,
 			// path is the same
 			if artefact.CustomPath != "" {
 				pkgDirAbs, _ := filepath.Abs(pkgDir)
-				if luetPkgTree.GetPath() != pkgDirAbs {
+				if anisePkgTree.GetPath() != pkgDirAbs {
 					DebugC(fmt.Sprintf("[%s-%s] package %s skipped because doesn't match with custom path (%s != %s).",
 						solution.Package.GetPackageName(),
 						solution.Package.GetPVR(),
-						luetPkgTree.HumanReadableString(),
-						luetPkgTree.GetPath(), pkgDirAbs,
+						anisePkgTree.HumanReadableString(),
+						anisePkgTree.GetPath(), pkgDirAbs,
 					))
 					continue
 				}
@@ -402,10 +402,10 @@ func (pc *PortageConverter) createSolution(pkg, treePath string, stack []string,
 				InfoC(fmt.Sprintf("[%s-%s] package to upgrade (%s)", solution.Package.GetPackageName(),
 					solution.Package.GetPVR(), gpTree.GetPVR()))
 
-				originaPkgVersion, _ := luetPkgTree.GetLabels()["original.package.version"]
+				originaPkgVersion, _ := anisePkgTree.GetLabels()["original.package.version"]
 
 				// Ensure that is related to the package suffix not available
-				// on luet version
+				// on anise version
 				if originaPkgVersion == "" || originaPkgVersion != solution.Package.GetPVR() {
 					newVersion = true
 				}
@@ -423,7 +423,7 @@ func (pc *PortageConverter) createSolution(pkg, treePath string, stack []string,
 				}
 			}
 
-			originPackage = luetPkgTree
+			originPackage = anisePkgTree
 		}
 
 		if originPackage != nil {
@@ -850,7 +850,7 @@ func (pc *PortageConverter) Generate() error {
 		buildFile := filepath.Join(pkg.PackageDir, "build.yaml")
 		finalizerFile := filepath.Join(pkg.PackageDir, "finalize.yaml")
 
-		// Convert solution to luet package
+		// Convert solution to anise package
 		pack := pkg.ToPack(true)
 
 		if pkg.Upgrade && !pc.Override {
