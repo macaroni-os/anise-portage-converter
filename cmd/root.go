@@ -1,5 +1,5 @@
 /*
-	Copyright © 2021-2024 Macaroni OS Linux
+	Copyright © 2021-2026 Macaroni OS Linux
 	See AUTHORS and LICENSE for the license details and contributors.
 */
 
@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	cliName = `Copyright (c) 2020-2026 - Daniele Rondina
+	cliName = `Copyright © 2021-2026 Macaroni OS Linux
 
 Portage/Overlay bridge for Macaroni OS Sambuca stack.`
 
