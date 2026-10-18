@@ -54,6 +54,7 @@ func (pc *PortageConverter) FindRuntimePackages(pTarget *anise_pkg.DefaultPackag
 				return nil, err
 			}
 
+			runtimePackage.SetPath(filepath.Dir(defFile))
 			ans = append(ans, runtimePackage)
 
 		}
@@ -105,7 +106,9 @@ func (pc *PortageConverter) FindBuildtimePackages(pTarget *anise_pkg.DefaultPack
 			art := artifact.NewPackageArtifact(pkgPath)
 			art.CompileSpec = cs.ToSpec()
 
-			ans = append(ans, art.GetPackage())
+			p := art.GetPackage()
+			p.SetPath(pkgPath)
+			ans = append(ans, p)
 
 		}
 
@@ -157,6 +160,7 @@ func (pc *PortageConverter) FindBuildtimePackage(pTarget *anise_pkg.DefaultPacka
 			art.CompileSpec = cs.ToSpec()
 
 			ans = art.GetPackage()
+			ans.SetPath(pkgPath)
 
 			break
 		}
@@ -209,6 +213,7 @@ func (pc *PortageConverter) FindRuntimePackage(pTarget *anise_pkg.DefaultPackage
 			}
 
 			ans = runtimePackage
+			ans.SetPath(filepath.Dir(defFile))
 			break
 
 		}
