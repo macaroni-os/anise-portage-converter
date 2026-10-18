@@ -397,7 +397,7 @@ func (pc *PortageConverter) Stage2() error {
 
 			defFile := filepath.Join(pkg.PackageDir, "definition.yaml")
 
-			// Convert solution to luet package
+			// Convert solution to anise package
 			pack := pkg.ToPack(true)
 			pack.Requires(resolvedRuntimeDeps)
 			pack.Conflicts(resolvedRuntimeConflicts)

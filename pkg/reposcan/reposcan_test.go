@@ -11,8 +11,8 @@ import (
 	. "github.com/macaroni-os/anise-portage-converter/pkg/reposcan"
 	specs "github.com/macaroni-os/anise-portage-converter/pkg/specs"
 
-	luet_pkg "github.com/macaroni-os/anise/pkg/package"
 	gentoo "github.com/geaaru/pkgs-checker/pkg/gentoo"
+	anise_pkg "github.com/macaroni-os/anise/pkg/package"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -102,7 +102,7 @@ var _ = Describe("Reposcan", func() {
 			Expect(len(solution.RuntimeDeps)).Should(Equal(0))
 
 			Expect(solution.ToPack(false)).Should(Equal(
-				&luet_pkg.DefaultPackage{
+				&anise_pkg.DefaultPackage{
 					Name:        "noip-updater",
 					Category:    "net-dns",
 					Version:     "2.1.9",
@@ -111,8 +111,8 @@ var _ = Describe("Reposcan", func() {
 						"http://www.no-ip.com",
 					},
 					License: "GPL-2",
-					PackageRequires: []*luet_pkg.DefaultPackage{
-						&luet_pkg.DefaultPackage{
+					PackageRequires: []*anise_pkg.DefaultPackage{
+						&anise_pkg.DefaultPackage{
 							Name:     "gcc",
 							Category: "sys-devel-10",
 							Version:  ">=0",
@@ -170,7 +170,7 @@ var _ = Describe("Reposcan", func() {
 			Expect(len(solution.RuntimeDeps)).Should(Equal(0))
 
 			Expect(solution.ToPack(false)).Should(Equal(
-				&luet_pkg.DefaultPackage{
+				&anise_pkg.DefaultPackage{
 					Name:        "noip-updater",
 					Category:    "net-dns",
 					Version:     "2.1.9",
@@ -179,8 +179,8 @@ var _ = Describe("Reposcan", func() {
 						"http://www.no-ip.com",
 					},
 					License: "GPL-2",
-					PackageRequires: []*luet_pkg.DefaultPackage{
-						&luet_pkg.DefaultPackage{
+					PackageRequires: []*anise_pkg.DefaultPackage{
+						&anise_pkg.DefaultPackage{
 							Name:     "gcc",
 							Category: "sys-devel",
 							Version:  ">=0",

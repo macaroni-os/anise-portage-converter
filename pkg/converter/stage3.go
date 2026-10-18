@@ -301,7 +301,7 @@ func (pc *PortageConverter) Stage3() error {
 		if updateRuntimeDeps {
 
 			defFile := filepath.Join(pkg.PackageDir, "definition.yaml")
-			// Convert solution to luet package
+			// Convert solution to anise package
 
 			// Read current definition file
 			dat, err := ioutil.ReadFile(defFile)

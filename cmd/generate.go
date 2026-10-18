@@ -20,7 +20,7 @@ import (
 func newGenerateCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "generate",
-		Short: "Generate luet specs.",
+		Short: "Generate anise specs.",
 		PreRun: func(cmd *cobra.Command, args []string) {
 			to, _ := cmd.Flags().GetString("to")
 			if to == "" {
